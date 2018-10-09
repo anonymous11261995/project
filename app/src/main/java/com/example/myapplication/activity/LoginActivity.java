@@ -45,7 +45,7 @@ import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity implements Definition, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private static final int RC_SIGN_IN = 9001;
+    private static final int RC_SIGN_IN = 1126;
     public static GoogleApiClient mGoogleApiClient;
     private ImageView mButtonFacebook;
     private ImageView mbuttonGoogle;
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements Definition, View
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "Request code: " + requestCode + "result code: " + resultCode);
+        Log.d(TAG, "Request code: " + requestCode + ", result code: " + resultCode);
 
         if (requestCode == RC_SIGN_IN) {
             //Google
@@ -309,7 +309,8 @@ public class LoginActivity extends AppCompatActivity implements Definition, View
                             alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //activeFragment(new LoginActivity());
+                                    Toast.makeText(getApplicationContext(),"Login error",Toast.LENGTH_LONG).show();
+                                    dialog.dismiss();
 
                                 }
                             });
