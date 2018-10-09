@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/no_internet_banner_layout" />
+    <ImageView
+        android:id="@+id/login_icon_app"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/login_text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textColor="#4a4a4a"
+        android:textSize="32sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_icon_app" />
+
+    <TextView
+        android:id="@+id/login_text_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="Description for login"
+        android:textColor="#7e7e7e"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_text_title" />
+
+    <ImageView
+        android:id="@+id/login_button_facebook"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="32dp"
+        android:clickable="true"
+        android:src="@drawable/ic_login_facebook"
+        app:layout_constraintEnd_toStartOf="@+id/login_button_email"
+        app:layout_constraintTop_toBottomOf="@+id/login_text_description" />
+
+    <ImageView
+        android:id="@+id/login_button_email"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="32dp"
+        android:clickable="true"
+        android:onClick="login"
+        android:src="@drawable/ic_login_email"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_text_description" />
+
+    <ImageView
+        android:id="@+id/login_button_google"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="32dp"
+        android:clickable="true"
+        android:src="@drawable/ic_login_google"
+        app:layout_constraintStart_toEndOf="@+id/login_button_email"
+        app:layout_constraintTop_toBottomOf="@+id/login_text_description" />
+
+
+    <!--<Button-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="16dp"-->
+    <!--android:layout_marginLeft="32dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:background="@color/colorWhite"-->
+    <!--android:onClick="register"-->
+    <!--android:text="@string/abc_sign_up"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent" />-->
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <!-- No Edit -->
+    <string name="web_client_id">772073993012-45l1gdcbgg65md4c0j4p560qh54j2j8f.apps.googleusercontent.com</string>
+    <!-- Dialog-->
+    <string name="dialog_message_login_success">Đăng nhập thành công</string>
+    <string name="dialog_message_login_failed">Xảy ra lỗi, vui lòng đăng nhập lại</string>
+    <string name="dialog_process_auth_message">Đang xử lý...</string>
+
+</resources>
