@@ -32,7 +32,7 @@ public class GroceryListAdapter extends FirestoreRecyclerAdapter<GroceryList, Gr
     @NonNull
     @Override
     public GroceryListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.grocery_item,
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grocery,
                 parent, false);
         return new GroceryListHolder(v);
     }
