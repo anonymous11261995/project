@@ -8,6 +8,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,8 +31,12 @@ dependencies {
     //firebase
     //noinspection GradleCompatible
     implementation 'com.google.firebase:firebase-auth:16.0.4'
+    implementation 'com.firebaseui:firebase-ui-firestore:4.2.0'
     //google
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    //libarary other
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.android.support:multidex:1.0.3'
     //test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.utils.Definition;
+import com.example.myapplication.utils.AppUtil;
 import com.example.myapplication.utils.NetworkConnectionUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -32,18 +32,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import java.util.Arrays;
 
 /**
  * Created by TienTruong on 10/6/2018.
  */
 
-public class LoginActivity extends AppCompatActivity implements Definition, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends AppCompatActivity implements AppUtil, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 1126;
     public static GoogleApiClient mGoogleApiClient;
@@ -74,6 +71,8 @@ public class LoginActivity extends AppCompatActivity implements Definition, View
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+
         // hideSoftKeyBoard();
         //discoveryKeyHarsh();
 
@@ -276,7 +275,7 @@ public class LoginActivity extends AppCompatActivity implements Definition, View
 //    }
 
     private void signIn() {
-        if(mGoogleApiClient.isConnected())
+        if (mGoogleApiClient.isConnected())
             mGoogleApiClient.clearDefaultAccountAndReconnect();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -309,7 +308,7 @@ public class LoginActivity extends AppCompatActivity implements Definition, View
                             alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(getApplicationContext(),"Login error",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Login error", Toast.LENGTH_LONG).show();
                                     dialog.dismiss();
 
                                 }
