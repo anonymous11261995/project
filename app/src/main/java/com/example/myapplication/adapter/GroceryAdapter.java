@@ -9,21 +9,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.model.GroceryList;
+import com.example.myapplication.model.Grocery;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-public class GroceryListAdapter extends FirestoreRecyclerAdapter<GroceryList, GroceryListAdapter.GroceryListHolder> {
-    private static final String TAG = GroceryListAdapter.class.getSimpleName();
+public class GroceryAdapter extends FirestoreRecyclerAdapter<Grocery, GroceryAdapter.GroceryListHolder> {
+    private static final String TAG = GroceryAdapter.class.getSimpleName();
     private OnItemClickListener listener;
 
-    public GroceryListAdapter(@NonNull FirestoreRecyclerOptions<GroceryList> options) {
+    public GroceryAdapter(@NonNull FirestoreRecyclerOptions<Grocery> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull GroceryListHolder holder, int position, @NonNull GroceryList model) {
+    protected void onBindViewHolder(@NonNull GroceryListHolder holder, int position, @NonNull Grocery model) {
         Log.d(TAG,"name: " + model.getName());
         holder.textViewName.setText(model.getName());
 

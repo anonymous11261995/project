@@ -40,7 +40,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
  * Created by TienTruong on 10/6/2018.
  */
 
-public class LoginActivity extends AppCompatActivity implements AppUtil, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 1126;
     public static GoogleApiClient mGoogleApiClient;

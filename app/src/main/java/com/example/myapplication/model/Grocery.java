@@ -3,14 +3,14 @@ package com.example.myapplication.model;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class GroceryList {
+public class Grocery {
     private String id;
     private Date created;
     private String name;
     private String userID;
-    private ArrayList<String> shared;
+    private ArrayList<String> userShared;
 
-    public GroceryList() {
+    public Grocery() {
     }
 
 
@@ -46,11 +46,11 @@ public class GroceryList {
         this.userID = userID;
     }
 
-    public ArrayList<String> getShared() {
-        return shared;
+    public ArrayList<String> getUserShared() {
+        return userShared;
     }
 
-    public void setShared(ArrayList<String> shared) {
-        this.shared = shared;
+    public void setUserShared(ArrayList<String> userShared) {
+        this.userShared = userShared;
     }
 }

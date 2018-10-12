@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.transform.CircleTransform;
+import com.example.myapplication.service.CircleTransform;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void activeFragment() {
-        GroceryListFragment fragment = new GroceryListFragment();
+        GroceryFragment fragment = new GroceryFragment();
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container, fragment);
@@ -142,13 +142,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void updateUserUI() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            Log.d(TAG, "providers: " + user.getProviders().toString() + ", user_name: " + user.getDisplayName() + ", user_photo_url: " + user.getPhotoUrl() + ", user_email: " + user.getEmail());
-            mNavHeaderTitle.setText(user.getDisplayName());
+        if (mUser != null) {
+            Log.d(TAG, "providers: " + mUser.getProviders().toString() + ", user_name: " + mUser.getDisplayName() + ", user_photo_url: " + mUser.getPhotoUrl() + ", user_email: " + mUser.getEmail());
+            mNavHeaderTitle.setText(mUser.getDisplayName());
             mNavigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
             Picasso.get()
-                    .load(user.getPhotoUrl() + "?type=large")
+                    .load(mUser.getPhotoUrl() + "?type=large")
                     .transform(new CircleTransform())
                     .error(R.drawable.ic_user)
                     .into(mNavHeaderImage);

@@ -24,8 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapter.GroceryListAdapter;
-import com.example.myapplication.model.GroceryList;
+import com.example.myapplication.adapter.GroceryAdapter;
+import com.example.myapplication.model.Grocery;
+import com.example.myapplication.service.GroceryService;
+import com.example.myapplication.utils.AppUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,31 +35,26 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Date;
-
 import static com.example.myapplication.activity.MainActivity.mDrawerLayout;
 
-public class GroceryListFragment extends Fragment implements View.OnClickListener {
-    private static final String TAG = GroceryListFragment.class.getSimpleName();
+public class GroceryFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = GroceryFragment.class.getSimpleName();
+    private static final String COLLECTION_GROCERY_PATH = AppUtil.COLLECTION_GROCERY_PATH;
 
     private FloatingActionButton buttonAddList;
+    private GroceryService mGroceryService;
 
-    private GroceryListAdapter mAdapter;
+    private GroceryAdapter mAdapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference groceryListRef = db.collection("GroceryList");
+    private CollectionReference groceryListRef = db.collection(COLLECTION_GROCERY_PATH);
     private FirebaseUser mUser;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_grocery, container, false);
-        Log.d(TAG, "Load fragment shopping list");
         return view;
     }
 
@@ -67,6 +64,8 @@ public class GroceryListFragment extends Fragment implements View.OnClickListene
         setHasOptionsMenu(true);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+
+        mGroceryService = new GroceryService(getContext(), mUser);
         initViews();
         setUpRecyclerView();
         setOnListener();
@@ -95,12 +94,7 @@ public class GroceryListFragment extends Fragment implements View.OnClickListene
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -128,7 +122,8 @@ public class GroceryListFragment extends Fragment implements View.OnClickListene
                         if (name.trim().isEmpty()) {
                             Toast.makeText(getContext(), "Please fill a name of list", Toast.LENGTH_LONG).show();
                         } else {
-                            saveList(name);
+                            mGroceryService.createList(name);
+                            mAdapter.notifyDataSetChanged();
                         }
                         dialog.dismiss();
                     }
@@ -167,11 +162,11 @@ public class GroceryListFragment extends Fragment implements View.OnClickListene
     }
 
     private void setUpRecyclerView() {
-        Query query = groceryListRef.orderBy("name", Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<GroceryList> options = new FirestoreRecyclerOptions.Builder<GroceryList>()
-                .setQuery(query, GroceryList.class)
+        Query query = groceryListRef.orderBy("created", Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<Grocery> options = new FirestoreRecyclerOptions.Builder<Grocery>()
+                .setQuery(query, Grocery.class)
                 .build();
-        mAdapter = new GroceryListAdapter(options);
+        mAdapter = new GroceryAdapter(options);
         RecyclerView recyclerView = getView().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -190,22 +185,4 @@ public class GroceryListFragment extends Fragment implements View.OnClickListene
         }).attachToRecyclerView(recyclerView);
     }
 
-    private void saveList(String name) {
-        GroceryList list = new GroceryList();
-        Date now = new Date();
-        list.setCreated(now);
-        list.setName(name);
-        list.setUserID(mUser.getEmail());
-        list.setShared(new ArrayList<String>());
-        String id = mUser.getEmail() + "-" + name + "-" + now.getTime();
-
-        try {
-            list.setId(URLDecoder.decode(id, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        groceryListRef.add(list);
-        mAdapter.notifyDataSetChanged();
-
-    }
 }
