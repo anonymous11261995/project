@@ -42,12 +42,14 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+        checkLogin();
         initViews();
         setOnListener();
         firebaseAuthListener();
         activeFragment();
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -59,7 +61,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -100,11 +101,18 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void checkLogin() {
+        if (mUser == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+    }
+
     private void activeFragment() {
         GroceryFragment fragment = new GroceryFragment();
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.container, fragment);
+        fragmentTransaction.add(R.id.layout_container_main, fragment);
         fragmentTransaction.commit();
 
     }

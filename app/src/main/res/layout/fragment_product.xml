@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/button_product_header_back"
+            android:id="@+id/imageview_product_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -25,31 +25,31 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/recipe_detail_header"
+            android:id="@+id/textview_product_header"
             style="@style/Widget.AppCompat.ActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="My List"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:textColor="#FFFF"
-            app:layout_constraintLeft_toRightOf="@+id/button_product_header_back"
+            app:layout_constraintLeft_toRightOf="@+id/imageview_product_back"
 
             />
 
-        <!--<ImageView-->
-            <!--android:id="@+id/recipe_detail_menu"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="5dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:background="@drawable/ic_option"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent" />-->
+        <ImageView
+            android:id="@+id/imageview_product_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/ic_menu_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recipe_detail_recycler_view"
+        android:id="@+id/recycler_view_product"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
@@ -58,9 +58,7 @@
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin" />
-
-
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin" />
 
 </LinearLayout>
