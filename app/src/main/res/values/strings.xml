@@ -5,6 +5,7 @@
     <string name="action_settings">Settings</string>
     <!-- No Edit -->
     <string name="web_client_id">499822787814-6all595c02r2lghos5sitscteq1s6njm.apps.googleusercontent.com</string> <!-- Get trên firebase-->
+    <string name="facebook_app_id">107118016896426</string>
     <!-- Dialog-->
     <string name="dialog_message_login_success">Đăng nhập thành công</string>
     <string name="dialog_message_login_failed">Xảy ra lỗi, vui lòng đăng nhập lại</string>

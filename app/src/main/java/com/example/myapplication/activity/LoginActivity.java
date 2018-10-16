@@ -21,6 +21,13 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.example.myapplication.utils.AppUtil;
 import com.example.myapplication.utils.NetworkConnectionUtil;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -32,9 +39,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.Arrays;
 
 /**
  * Created by TienTruong on 10/6/2018.
@@ -47,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ImageView mButtonFacebook;
     private ImageView mbuttonGoogle;
     private TextView mStatusInternet;
-    //CallbackManager mCallbackManager;
+    CallbackManager mCallbackManager;
     private FirebaseAuth mAuth;
     private ProgressDialog mAuthProgressDialog;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -73,8 +83,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
 
-        // hideSoftKeyBoard();
-        //discoveryKeyHarsh();
 
     }
 
@@ -134,8 +142,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Log.w(TAG, "Google sign in failed", e);
             }
         } else {
-            // Facebook
-            //mCallbackManager.onActivityResult(requestCode, resultCode, data);
+             //Facebook
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -157,14 +165,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void processDialogAuth() {
         mAuthProgressDialog = new ProgressDialog(this);
         mAuthProgressDialog.setMessage(getResources().getString(R.string.dialog_process_auth_message));
-        mAuthProgressDialog.setCancelable(false);
+        mAuthProgressDialog.setCancelable(true);
     }
 
     private void firebaseAuthListener() {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
                 mAuthProgressDialog.hide();
             }
         };
@@ -206,28 +213,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-//            case R.id.login_button_facebook:
-//                mCallbackManager = CallbackManager.Factory.create();
-//                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
-//                LoginManager.getInstance().registerCallback(mCallbackManager,
-//                        new FacebookCallback<LoginResult>() {
-//                            @Override
-//                            public void onSuccess(LoginResult loginResult) {
-//                                Log.d(TAG, "facebook:onSuccess:" + loginResult);
-//                                handleFacebookAccessToken(loginResult.getAccessToken());
-//                            }
-//
-//                            @Override
-//                            public void onCancel() {
-//                                Log.d(TAG, "facebook:onCancel");
-//                            }
-//
-//                            @Override
-//                            public void onError(FacebookException error) {
-//                                Log.d(TAG, "facebook:onError", error);
-//                            }
-//                        });
-//                break;
+            case R.id.login_button_facebook:
+                mCallbackManager = CallbackManager.Factory.create();
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
+                LoginManager.getInstance().registerCallback(mCallbackManager,
+                        new FacebookCallback<LoginResult>() {
+                            @Override
+                            public void onSuccess(LoginResult loginResult) {
+                                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                                handleFacebookAccessToken(loginResult.getAccessToken());
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                Log.d(TAG, "facebook:onCancel");
+                            }
+
+                            @Override
+                            public void onError(FacebookException error) {
+                                Log.d(TAG, "facebook:onError", error);
+                            }
+                        });
+                break;
             case R.id.login_button_google:
                 signIn();
                 break;
@@ -236,43 +243,43 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-//    private void handleFacebookAccessToken(AccessToken token) {
-//        mAuthProgressDialog.show();
-//        Log.d(TAG, "handleFacebookAccessToken:" + token);
-//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-//        mAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            Log.d(TAG, "signInWithCredential:success");
-//                            AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-//                            alert.setMessage(getResources().getString(R.string.dialog_message_login_success));
-//                            alert.setPositiveButton(getResources().getString(R.string.abc_ok), new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                                }
-//                            });
-//                            alert.show();
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-//                            final AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-//                            alert.setMessage(getResources().getString(R.string.dialog_message_login_failed));
-//                            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    //activeFragment(new LoginActivity());
-//
-//                                }
-//                            });
-//                            alert.show();
-//                        }
-//
-//                    }
-//                });
-//    }
+    private void handleFacebookAccessToken(AccessToken token) {
+        mAuthProgressDialog.show();
+        Log.d(TAG, "handleFacebookAccessToken:" + token);
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInWithCredential:success");
+                            AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                            alert.setMessage(getResources().getString(R.string.dialog_message_login_success));
+                            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                }
+                            });
+                            alert.show();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            final AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                            alert.setMessage(getResources().getString(R.string.dialog_message_login_failed));
+                            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //activeFragment(new LoginActivity());
+
+                                }
+                            });
+                            alert.show();
+                        }
+
+                    }
+                });
+    }
 
     private void signIn() {
         if (mGoogleApiClient.isConnected())

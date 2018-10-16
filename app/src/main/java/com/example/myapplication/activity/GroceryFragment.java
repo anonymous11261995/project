@@ -107,7 +107,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.button_add_list:
+            case R.id.button_grocery_fragment_add_list:
                 Toast.makeText(getContext(), "Add new list", Toast.LENGTH_LONG).show();
                 final View alertView;
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -154,7 +154,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        buttonAddList = getView().findViewById(R.id.button_add_list);
+        buttonAddList = getView().findViewById(R.id.button_grocery_fragment_add_list);
     }
 
     private void setOnListener() {
@@ -168,7 +168,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                 .setQuery(query, Grocery.class)
                 .build();
         mAdapter = new GroceryAdapter(options);
-        RecyclerView recyclerView = getView().findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = getView().findViewById(R.id.recycler_view_grocery_fragment);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
