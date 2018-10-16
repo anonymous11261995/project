@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="LanguageValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>40</item>
+        <item>5</item>
+        <item>6</item>
+        <item>15</item>
+        <item>7</item>
+        <item>21</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>41</item>
+    </string-array>
+    <string-array name="OrientationValues">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+    <string-array name="android_wear_capabilities">
+        <item>provide_authorization_token</item>
+        <item>open_app_on_phone</item>
+        <item>open_current_list_on_phone</item>
+        <item>perform_log_in_using_phone</item>
+    </string-array>
+    <string-array name="cups_unit">
+        <item>cups of</item>
+        <item>cups</item>
+        <item>cup of</item>
+        <item>c.</item>
+    </string-array>
+    <string-array name="imperial_volume_units">
+        <item>gallons of</item>
+        <item>gallon of</item>
+        <item>gallons</item>
+        <item>gallon</item>
+        <item>gal.</item>
+    </string-array>
+    <string-array name="imperial_volume_units_decimal">
+        <item>fluid ounces of</item>
+        <item>fluid ounces</item>
+        <item>fluid oz</item>
+        <item>fl. oz.</item>
+        <item>fl oz.</item>
+        <item>fl. oz</item>
+    </string-array>
+    <string-array name="imperial_weight_units">
+        <item>pounds of</item>
+        <item>pound of</item>
+        <item>pounds</item>
+        <item>pound</item>
+        <item>lbs.</item>
+        <item>lbs</item>
+        <item>lb.</item>
+    </string-array>
+    <string-array name="imperial_weight_units_small">
+        <item>ounces of</item>
+        <item>ounce of</item>
+        <item>ounces</item>
+        <item>ounce</item>
+        <item>oz.</item>
+    </string-array>
+    <string-array name="metric_volume_units">
+        <item>liters of</item>
+        <item>litres of</item>
+        <item>liters of</item>
+        <item>liter of</item>
+        <item>litre of</item>
+        <item>liters</item>
+        <item>litres</item>
+        <item>liter</item>
+        <item>litre</item>
+        <item>l.</item>
+    </string-array>
+    <string-array name="metric_volume_units_decimal">
+        <item>millilitre of</item>
+        <item>milliliters of</item>
+        <item>milliliter of</item>
+        <item>millilitre</item>
+        <item>milliliters</item>
+        <item>milliliter</item>
+        <item>ml.</item>
+    </string-array>
+    <string-array name="metric_weight_units">
+        <item>kilograms of</item>
+        <item>kilogram of</item>
+        <item>kilograms</item>
+        <item>kilogram</item>
+        <item>kilo</item>
+        <item>kilos</item>
+        <item>kg.</item>
+    </string-array>
+    <string-array name="metric_weight_units_small">
+        <item>grams of</item>
+        <item>gram of</item>
+        <item>grams</item>
+        <item>gram</item>
+        <item>gms</item>
+        <item>g.</item>
+    </string-array>
+    <string-array name="pint_unit">
+        <item>pints of</item>
+        <item>pint of</item>
+        <item>pint</item>
+        <item>pints</item>
+        <item>pt.</item>
+    </string-array>
+    <string-array name="pl_dg_units">
+        <item>dekagramów</item>
+        <item>dekagramow</item>
+        <item>dekagram</item>
+        <item>deko</item>
+        <item>deka</item>
+        <item>dag</item>
+        <item>dkg</item>
+        <item>dkg.</item>
+        <item>dk.</item>
+        <item>dg</item>
+    </string-array>
+    <string-array name="preferences_section_orientation_array">
+        <item>As on device</item>
+        <item>Portrait</item>
+        <item>Landscape</item>
+    </string-array>
+    <string-array name="products_piece_units">
+        <item>packages of</item>
+        <item>package of</item>
+        <item>packages</item>
+        <item>package</item>
+        <item>pkg.</item>
+    </string-array>
+    <string-array name="quart_unit">
+        <item>quarts of</item>
+        <item>quart of</item>
+        <item>quarts</item>
+        <item>quart</item>
+        <item>qt.</item>
+    </string-array>
+    <array name="shoppinglist_empty_state_drawables_vector">
+        <item>@drawable/arbuz_vec</item>
+        <item>@drawable/cheese_vec</item>
+        <item>@drawable/chips_vec</item>
+        <item>@drawable/czekolada_vec</item>
+        <item>@drawable/jam_vec</item>
+        <item>@drawable/plyn_do_prania_vec</item>
+        <item>@drawable/paprika_vec</item>
+        <item>@drawable/oberzyna_vec</item>
+        <item>@drawable/mydlo_vec</item>
+        <item>@drawable/mleko_vec</item>
+        <item>@drawable/miod_vec</item>
+        <item>@drawable/minso_vec</item>
+        <item>@drawable/marchew_vec</item>
+        <item>@drawable/kukurydza_vec</item>
+        <item>@drawable/grapes_vec</item>
+        <item>@drawable/flakesy_vec</item>
+        <item>@drawable/cola_vec</item>
+        <item>@drawable/butla_vec</item>
+        <item>@drawable/burak_vec</item>
+        <item>@drawable/brocoli_vec</item>
+        <item>@drawable/banan_vec</item>
+        <item>@drawable/arbuz_vec</item>
+        <item>@drawable/can_vec</item>
+        <item>@drawable/chleb_tostowy_vec</item>
+        <item>@drawable/pomidor_vec</item>
+        <item>@drawable/sliwka_vec</item>
+    </array>
+    <string-array name="squares_unit">
+        <item>squares of</item>
+        <item>square of</item>
+        <item>squares</item>
+        <item>square</item>
+        <item>sq.</item>
+    </string-array>
+    <string-array name="tbs_unit">
+        <item>tablespoons of</item>
+        <item>tablespoon of</item>
+        <item>tablespoons</item>
+        <item>tablespoon</item>
+        <item>tbsp.</item>
+    </string-array>
+    <string-array name="tsp_unit">
+        <item>teaspoons of</item>
+        <item>teaspoon of</item>
+        <item>teaspoons</item>
+        <item>teaspoon</item>
+        <item>tsp.</item>
+    </string-array>
+    <array name="tutorial_colors">
+        <item>#ff54ab26</item>
+        <item>#ff2196f3</item>
+        <item>#ffa45be2</item>
+        <item>#ffffb300</item>
+    </array>
+    <array name="tutorial_colors_my_phone">
+        <item>#ff54ab26</item>
+        <item>#ff2196f3</item>
+        <item>#ffa45be2</item>
+        <item>#ff2cb4af</item>
+        <item>#ff2b74bf</item>
+        <item>#ffffb300</item>
+    </array>
+    <array name="tutorial_colors_nav">
+        <item>#ff418d18</item>
+        <item>#ff1178ca</item>
+        <item>#ff8d41ce</item>
+        <item>#ffdc9a00</item>
+    </array>
+    <array name="tutorial_colors_nav_my_phone">
+        <item>#ff418d18</item>
+        <item>#ff1178ca</item>
+        <item>#ff8d41ce</item>
+        <item>#ff108a85</item>
+        <item>#ff276bb1</item>
+        <item>#ffdc9a00</item>
+    </array>
+    <array name="tutorial_images">
+        <item>@drawable/tutorial_1</item>
+        <item>@drawable/tutorial_2</item>
+        <item>@drawable/tutorial_3</item>
+        <item>@drawable/tutorial_5_selector</item>
+    </array>
+    <array name="tutorial_images_my_phone">
+        <item>@drawable/tutorial_1_my_phone</item>
+        <item>@drawable/tutorial_2</item>
+        <item>@drawable/tutorial_3</item>
+        <item>@drawable/tutorial_4_my_phone</item>
+        <item>@drawable/tutorial_accesories_my_phone</item>
+        <item>@drawable/tutorial_5_selector</item>
+    </array>
+    <string-array name="tutorial_msg">
+        <item>"Your smart shopping list
+simple, fast &amp; beautiful"</item>
+        <item>"Type, speak or use
+smart suggestions based on
+the items you put on the list"</item>
+        <item>"Share your grocery list
+split the work and stay in sync"</item>
+        <item>"Take the hassle and aggravation
+out of daily shopping"</item>
+    </string-array>
+    <string-array name="tutorial_msg_my_phone">
+        <item>"Z nami szybko i sprytnie
+zaplanujesz Swoje zakupy"</item>
+        <item>"Podyktuj całą listę, skorzystaj z
+szybkich podpowiedzi lub skanera"</item>
+        <item>"Udostępnij listę jednym kliknięciem,
+podziel się obowiązkami z innymi"</item>
+        <item>"Dopasujemy do Twoich zakupów
+promocje z okolicznych sklepów"</item>
+        <item>"Sprawdź zawsze aktualny katalog
+produktów i promocji myPhone"</item>
+        <item>"Nigdy nie zginie, a zakupy zrobisz
+szybciej i wygodniej"</item>
+    </string-array>
+    <string-array name="tutorial_titles">
+        <item>Welcome to Listonic</item>
+        <item>Quickly Add Items</item>
+        <item>Sharing is super easy</item>
+        <item>Create your first list</item>
+    </string-array>
+    <string-array name="tutorial_titles_my_phone">
+        <item>Witaj w specjalnej wersji Listonic dla myPhone</item>
+        <item>Nie chce Ci się pisać?</item>
+        <item>Robisz zakupy dla kilku osób?</item>
+        <item>A jeśli lubisz oszczędzać</item>
+        <item>"Rozszerz możliwości
+swojego telefonu"</item>
+        <item>Stwórz pierwszą listę</item>
+    </string-array>
+    <array name="wear_notification_backgrounds">
+        <item>@drawable/android_wear_bgr_2</item>
+        <item>@drawable/android_wear_bgr_3</item>
+        <item>@drawable/android_wear_bgr_4</item>
+    </array>
+    <array name="whats_new_colors">
+        <item>#ff54ab26</item>
+        <item>#ff2196f3</item>
+        <item>#ffa45be2</item>
+        <item>#ffda2c67</item>
+    </array>
+    <array name="whats_new_colors_nav">
+        <item>#ff418d18</item>
+        <item>#ff1178ca</item>
+        <item>#ff8d41ce</item>
+        <item>#ffbd2359</item>
+    </array>
+    <array name="whats_new_images">
+        <item>@drawable/nowosci_01</item>
+        <item>@drawable/nowosci_02</item>
+        <item>@drawable/nowosci_03</item>
+        <item>@drawable/nowosci_05</item>
+    </array>
+    <string-array name="whats_new_msg">
+        <item>"See what's new in
+the biggest Listonic update
+so far"</item>
+        <item>"Clear &amp; beautiful Material Design,
+as in the best Android apps"</item>
+        <item>"As-You-Type suggestions,
+based on your most popular items"</item>
+        <item>"Share lists faster,
+ with real time sync"</item>
+    </string-array>
+    <string-array name="whats_new_titles">
+        <item>Welcome</item>
+        <item>New design</item>
+        <item>Smart autosuggest</item>
+        <item>Improved sharing</item>
+    </string-array>
+</resources>
