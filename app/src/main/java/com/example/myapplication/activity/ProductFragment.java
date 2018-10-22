@@ -17,16 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapter.GroceryAdapter;
 import com.example.myapplication.adapter.ProductAdapter;
 import com.example.myapplication.model.Grocery;
 import com.example.myapplication.model.Product;
 import com.example.myapplication.utils.AppUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.WriteBatch;
 
 
 public class ProductFragment extends Fragment implements View.OnClickListener {
@@ -143,12 +144,17 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Product product = documentSnapshot.toObject(Product.class);
+                DocumentReference documentItem = productRef.document(product.getId());
+                WriteBatch batch = db.batch();
                 if(product.getIsPurchased()){
-                    product.setIsPurchased(false);
+                    batch.update(documentItem,"isPurchased",false);
                 }
                 else {
-                    product.setIsPurchased(true);
+                    batch.update(documentItem,"isPurchased",true);
                 }
+                mAdapter.notifyItemChanged(position);
+
+                //mAdapter.notifyItemChanged(position,product);
 //                productRef.document().up
             }
         });
