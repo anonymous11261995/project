@@ -26,7 +26,7 @@ public class GroceryService extends GenericService {
         this.mUserCurrent = user;
     }
 
-    public void createList(String name) {
+    public Grocery createList(String name) {
         Grocery list = new Grocery();
         Date now = new Date();
         list.setCreated(now);
@@ -37,6 +37,7 @@ public class GroceryService extends GenericService {
         String encodeID = AppUtil.convertStringToUrl(id);
         list.setId(encodeID);
         mGroceryDao.update(list);
+        return list;
     }
 
 }

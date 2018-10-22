@@ -17,12 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.adapter.GroceryAdapter;
 import com.example.myapplication.adapter.ProductAdapter;
 import com.example.myapplication.model.Grocery;
 import com.example.myapplication.model.Product;
 import com.example.myapplication.utils.AppUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -33,7 +35,6 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
 
     private ImageView mActionBack;
     private ImageView mActionMenu;
-    private TextView mNameGrocery;
 
     private Grocery mGrocery;
     private ProductAdapter mAdapter;
@@ -94,7 +95,7 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
         int id = v.getId();
         switch (id) {
             case R.id.imageview_product_back:
-
+                replaceFragment(new GroceryFragment());
                 break;
             default:
                 break;
@@ -105,8 +106,8 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
     private void initViews() {
         mActionBack = getView().findViewById(R.id.imageview_product_back);
         mActionMenu = getView().findViewById(R.id.imageview_product_menu);
-        mNameGrocery = getView().findViewById(R.id.textview_product_header);
-
+        TextView textViewHeader = getView().findViewById(R.id.textview_product_header);
+        textViewHeader.setText(mGrocery.getName());
 
     }
 
@@ -116,11 +117,11 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setUpRecyclerView() {
-        Query query = productRef.orderBy("name", Query.Direction.DESCENDING);
+        Query query = productRef.whereEqualTo("groceryID",mGrocery.getId());
         FirestoreRecyclerOptions<Product> options = new FirestoreRecyclerOptions.Builder<Product>()
                 .setQuery(query, Product.class)
                 .build();
-        mAdapter = new ProductAdapter(options);
+        mAdapter = new ProductAdapter(getContext(),options);
         RecyclerView recyclerView = getView().findViewById(R.id.recycler_view_product);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -137,6 +138,20 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
                 mAdapter.deleteItem(viewHolder.getAdapterPosition());
             }
         }).attachToRecyclerView(recyclerView);
+
+        mAdapter.setOnClickListener(new ProductAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Product product = documentSnapshot.toObject(Product.class);
+                if(product.getIsPurchased()){
+                    product.setIsPurchased(false);
+                }
+                else {
+                    product.setIsPurchased(true);
+                }
+//                productRef.document().up
+            }
+        });
     }
 
     private void replaceFragment(Fragment newFragment){
@@ -146,5 +161,7 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
         transaction.commit();
     }
 
-
+    public void setGrocery(Grocery grocery) {
+        this.mGrocery = grocery;
+    }
 }

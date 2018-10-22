@@ -1,14 +1,22 @@
 package com.example.myapplication.model;
 
+import java.util.Date;
+
 public class Product {
     private String id;
+    private Date created;
     private String groceryID;
     private String name;
-    private String note;
     private Boolean isPurchased;
     private int quantity;
 
     public Product() {
+        this.id = "";
+        this.groceryID = "";
+        this.name = "";
+        this.quantity = 1;
+        this.isPurchased = false;
+        this.created = new Date();
     }
 
     public String getId() {
@@ -27,19 +35,11 @@ public class Product {
         this.name = name;
     }
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public Boolean getPurchased() {
+    public Boolean getIsPurchased() {
         return isPurchased;
     }
 
-    public void setPurchased(Boolean purchased) {
+    public void setIsPurchased(Boolean purchased) {
         isPurchased = purchased;
     }
 
@@ -49,5 +49,21 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public String getGroceryID() {
+        return groceryID;
+    }
+
+    public void setGroceryID(String groceryID) {
+        this.groceryID = groceryID;
     }
 }

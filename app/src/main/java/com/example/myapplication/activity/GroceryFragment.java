@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +37,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import static com.example.myapplication.activity.MainActivity.mDrawerLayout;
 
 public class GroceryFragment extends Fragment implements View.OnClickListener {
@@ -46,6 +50,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     private GroceryService mGroceryService;
 
     private GroceryAdapter mAdapter;
+   private RecyclerView mRecyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference groceryListRef = db.collection(COLLECTION_GROCERY_PATH);
     private FirebaseUser mUser;
@@ -65,7 +70,6 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
         setHasOptionsMenu(true);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-
         mGroceryService = new GroceryService(getContext(), mUser);
         initViews();
         setUpRecyclerView();
@@ -125,6 +129,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                         } else {
                             mGroceryService.createList(name);
                             mAdapter.notifyDataSetChanged();
+                            //Log.d(TAG,""+mAdapter.getSnapshots().size());
                         }
                         dialog.dismiss();
                     }
@@ -163,15 +168,17 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setUpRecyclerView() {
-        Query query = groceryListRef.orderBy("created", Query.Direction.DESCENDING);
+        Log.d(TAG,mUser.getEmail());
+        Query query = groceryListRef.whereEqualTo("userID", mUser.getEmail());
+        // Query query2 = groceryListRef.orderBy("created",Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Grocery> options = new FirestoreRecyclerOptions.Builder<Grocery>()
                 .setQuery(query, Grocery.class)
                 .build();
         mAdapter = new GroceryAdapter(options);
-        RecyclerView recyclerView = getView().findViewById(R.id.recycler_view_grocery_fragment);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(mAdapter);
+        mRecyclerView = getView().findViewById(R.id.recycler_view_grocery_fragment);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(mAdapter);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -183,16 +190,19 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 mAdapter.deleteItem(viewHolder.getAdapterPosition());
             }
-        }).attachToRecyclerView(recyclerView);
+        }).attachToRecyclerView(mRecyclerView);
         mAdapter.setOnClickListener(new GroceryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                replaceFragment(new ProductFragment());
+                ProductFragment fragment = new ProductFragment();
+                Grocery grocery = documentSnapshot.toObject(Grocery.class);
+                fragment.setGrocery(grocery);
+                replaceFragment(fragment);
             }
         });
     }
 
-    private void replaceFragment(Fragment newFragment){
+    private void replaceFragment(Fragment newFragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.layout_container_main, newFragment);
         transaction.addToBackStack(null);

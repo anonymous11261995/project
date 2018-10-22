@@ -20,11 +20,12 @@ public class GroceryAdapter extends FirestoreRecyclerAdapter<Grocery, GroceryAda
 
     public GroceryAdapter(@NonNull FirestoreRecyclerOptions<Grocery> options) {
         super(options);
+        Log.d(TAG,"init grocery adater");
     }
 
     @Override
     protected void onBindViewHolder(@NonNull GroceryListHolder holder, int position, @NonNull Grocery model) {
-        Log.d(TAG,"name: " + model.getName());
+        //Log.d(TAG, "name: " + model.getName());
         holder.textViewName.setText(model.getName());
 
     }
@@ -46,7 +47,7 @@ public class GroceryAdapter extends FirestoreRecyclerAdapter<Grocery, GroceryAda
 
         public GroceryListHolder(View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.grocery_name);
+            textViewName = itemView.findViewById(R.id.textview_grocery_item_name);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
