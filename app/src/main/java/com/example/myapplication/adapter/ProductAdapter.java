@@ -33,7 +33,7 @@ public class ProductAdapter extends FirestoreRecyclerAdapter<Product, ProductAda
     protected void onBindViewHolder(@NonNull ProductAdapter.ProducttHolder holder, int position, @NonNull Product model) {
         Log.d(TAG, "name: " + model.getName() + ", created: " + model.getCreated() + ", id: " + model.getId()
         + ", isPurchased: " + model.getIsPurchased() + ", quantity: " + model.getQuantity());
-        holder.textViewName.setText(model.getName());
+
         if (model.getQuantity() != 1) {
             holder.textViewQuantity.setVisibility(View.VISIBLE);
             holder.textViewQuantity.setText(String.valueOf(model.getQuantity()));
@@ -41,11 +41,15 @@ public class ProductAdapter extends FirestoreRecyclerAdapter<Product, ProductAda
             holder.textViewQuantity.setVisibility(View.GONE);
         }
         if (model.getIsPurchased()) {
+            Log.d(TAG,"is_purched");
             holder.cardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.background_product_purchased));
             holder.textViewName.setPaintFlags(holder.textViewName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.textViewName.setText(model.getName());
         }
         else {
             holder.cardView.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.background_product_not_purchased));
+            holder.textViewName.setText(model.getName());
+            Log.d(TAG,"not purched");
         }
 
     }
@@ -61,10 +65,6 @@ public class ProductAdapter extends FirestoreRecyclerAdapter<Product, ProductAda
     public void deleteItem(int position) {
         getSnapshots().getSnapshot(position).getReference().delete();
     }
-//    public void editItem(int position){
-//        getSnapshots().getSnapshot(position).getReference().update(getSnapshots().getSnapshot(position).toObject(Grocery.class));
-//    }
-
     class ProducttHolder extends RecyclerView.ViewHolder {
         TextView textViewName;
         TextView textViewQuantity;

@@ -29,6 +29,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.WriteBatch;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class ProductFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = ProductFragment.class.getSimpleName();
@@ -118,11 +121,11 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setUpRecyclerView() {
-        Query query = productRef.whereEqualTo("groceryID",mGrocery.getId());
+        Query query = productRef.whereEqualTo("groceryID", mGrocery.getId());
         FirestoreRecyclerOptions<Product> options = new FirestoreRecyclerOptions.Builder<Product>()
                 .setQuery(query, Product.class)
                 .build();
-        mAdapter = new ProductAdapter(getContext(),options);
+        mAdapter = new ProductAdapter(getContext(), options);
         RecyclerView recyclerView = getView().findViewById(R.id.recycler_view_product);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -144,23 +147,16 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Product product = documentSnapshot.toObject(Product.class);
-                DocumentReference documentItem = productRef.document(product.getId());
-                WriteBatch batch = db.batch();
-                if(product.getIsPurchased()){
-                    batch.update(documentItem,"isPurchased",false);
+                if (product.getIsPurchased()) {
+                    documentSnapshot.getReference().update("isPurchased", false);
+                } else {
+                    documentSnapshot.getReference().update("isPurchased", true);
                 }
-                else {
-                    batch.update(documentItem,"isPurchased",true);
-                }
-                mAdapter.notifyItemChanged(position);
-
-                //mAdapter.notifyItemChanged(position,product);
-//                productRef.document().up
             }
         });
     }
 
-    private void replaceFragment(Fragment newFragment){
+    private void replaceFragment(Fragment newFragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.layout_container_main, newFragment);
         transaction.addToBackStack(null);
