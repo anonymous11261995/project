@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/layout_product_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/colorPrimary">
 
         <ImageView
             android:id="@+id/imageview_product_back"
@@ -46,15 +46,25 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        style="@style/MaterialSearchBarLight"
+        android:id="@+id/searchBar"
+        app:mt_navIconEnabled="true"
+        app:mt_menuDividerEnabled="true"
+        app:mt_menuIconDrawable="@drawable/ic_menu_white"
+        app:mt_placeholder="Google Play"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_product"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
         android:divider="@null"
         android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_product_header"/>
+        android:headerDividersEnabled="false" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

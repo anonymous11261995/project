@@ -168,9 +168,9 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setUpRecyclerView() {
-        Log.d(TAG,mUser.getEmail());
-        Query query = groceryListRef.whereEqualTo("userID", mUser.getEmail());
-        // Query query2 = groceryListRef.orderBy("created",Query.Direction.DESCENDING);
+        //Log.d(TAG,mUser.getEmail());
+        //Query query = groceryListRef.whereEqualTo("userID", mUser.getEmail());
+        Query query = groceryListRef.orderBy("created",Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Grocery> options = new FirestoreRecyclerOptions.Builder<Grocery>()
                 .setQuery(query, Grocery.class)
                 .build();
