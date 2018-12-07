@@ -1,4 +1,4 @@
-package com.example.myapplication.activity;
+package com.example.myapplication.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,9 +35,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 import static com.example.myapplication.activity.MainActivity.mDrawerLayout;
 
@@ -194,19 +190,11 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
         mAdapter.setOnClickListener(new GroceryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                ProductFragment fragment = new ProductFragment();
-                Grocery grocery = documentSnapshot.toObject(Grocery.class);
-                fragment.setGrocery(grocery);
-                replaceFragment(fragment);
+
             }
         });
     }
 
-    private void replaceFragment(Fragment newFragment) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.layout_container_main, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
+  
 
 }
