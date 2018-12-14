@@ -32,14 +32,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.example.myapplication.AppConfig;
 import com.example.myapplication.R;
@@ -120,10 +118,7 @@ public class ShoppingListFragment extends Fragment implements DefinitionSchema, 
         // Crashlytics.log(Log.DEBUG, TAG, "onActivityCreated fragment");
         mShoppingListService = new ShoppingListService(getContext());
         mProductService = new ProductService(getContext());
-        mShoppingList = mShoppingListService.getShoppingListActive();
-        mPrefManager = new PrefManager(getContext());
         MainActivity.mNavigationView.getMenu().getItem(0).setChecked(true);
-        mPrefManager.putString(SHARE_PREFERENCES_FRAGMENT_ACTIVE, SHOPPING_LIST_ACTIVE);
         initViews();
         initAutoCompleteTextView();
         setOnListener();
@@ -508,7 +503,6 @@ public class ShoppingListFragment extends Fragment implements DefinitionSchema, 
 
                 return true;
             case R.id.action_multi_list:
-                showChoiceList();
                 return true;
             case R.id.action_quick_set_qty:
 
@@ -638,7 +632,7 @@ public class ShoppingListFragment extends Fragment implements DefinitionSchema, 
 
     }
 
-    private void showChoiceList() {
-
+    public void setShoppingList(ShoppingList shoppingList) {
+        this.mShoppingList = shoppingList;
     }
 }

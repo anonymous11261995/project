@@ -22,10 +22,9 @@
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_grocery_fragment"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bar_layout_grocery_frament" />
@@ -33,7 +32,7 @@
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button_grocery_fragment_add_list"
+        android:id="@+id/btn_add_new_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

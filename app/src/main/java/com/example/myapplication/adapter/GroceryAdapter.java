@@ -1,71 +1,83 @@
 package com.example.myapplication.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.model.Grocery;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.example.myapplication.entity.ShoppingList;
 
-public class GroceryAdapter extends FirestoreRecyclerAdapter<Grocery, GroceryAdapter.GroceryListHolder> {
-    private static final String TAG = GroceryAdapter.class.getSimpleName();
+import java.util.ArrayList;
+
+public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private OnItemClickListener listener;
+    private Context mContext;
+    private ArrayList<ShoppingList> mData;
 
-    public GroceryAdapter(@NonNull FirestoreRecyclerOptions<Grocery> options) {
-        super(options);
-        Log.d(TAG,"init grocery adater");
-    }
-
-    @Override
-    protected void onBindViewHolder(@NonNull GroceryListHolder holder, int position, @NonNull Grocery model) {
-        //Log.d(TAG, "name: " + model.getName());
-        holder.textViewName.setText(model.getName());
-
+    public GroceryAdapter(Context context, ArrayList<ShoppingList> data) {
+        this.mContext = context;
+        this.mData = data;
     }
 
     @NonNull
     @Override
-    public GroceryListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grocery,
-                parent, false);
-        return new GroceryListHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+        View view;
+        view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_grocery, parent, false);
+        return new ItemHolder(view);
     }
 
-    public void deleteItem(int position) {
-        getSnapshots().getSnapshot(position).getReference().delete();
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        ItemHolder holder = (ItemHolder) viewHolder;
+        ShoppingList object = mData.get(i);
+        holder.itemName.setText(object.getName());
     }
 
-    class GroceryListHolder extends RecyclerView.ViewHolder {
-        TextView textViewName;
+    @Override
+    public int getItemCount() {
+        return mData.size();
+    }
 
-        public GroceryListHolder(View itemView) {
+
+
+    class ItemHolder extends RecyclerView.ViewHolder {
+        private TextView itemName;
+        private TextView itemStatus;
+        private ConstraintLayout layoutItem;
+
+        private ItemHolder(View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.textview_grocery_item_name);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemName = itemView.findViewById(R.id.text_name);
+            itemStatus = itemView.findViewById(R.id.text_status);
+            layoutItem = itemView.findViewById(R.id.layout_item);
+            layoutItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                        listener.onItemClick(mData.get(position), position);
                     }
+
                 }
             });
+
         }
+
     }
 
     public interface OnItemClickListener {
-        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+        void onItemClick(ShoppingList object, int position);
     }
 
     public void setOnClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
+
 }
