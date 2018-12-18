@@ -9,8 +9,8 @@ import android.util.Log;
 
 import com.example.myapplication.database.DBContentProvider;
 import com.example.myapplication.entity.Category;
+import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
-import com.example.myapplication.entity.ShoppingList;
 import com.example.myapplication.utils.DefinitionSchema;
 
 import java.util.ArrayList;
@@ -371,9 +371,9 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao, Def
             }
             if (cursor.getColumnIndex(COLUMN_ID_SHOPPING_LIST) != -1) {
                 idShoppingListIndex = cursor.getColumnIndexOrThrow(COLUMN_ID_SHOPPING_LIST);
-                ShoppingList shoppingList = new ShoppingList();
-                shoppingList.setId(cursor.getString(idShoppingListIndex));
-                product.setShoppingList(shoppingList);
+                Grocery grocery = new Grocery();
+                grocery.setId(cursor.getString(idShoppingListIndex));
+                product.setGrocery(grocery);
             }
             if (cursor.getColumnIndex(COLUMN_LAST_CHECKED) != -1) {
                 lastCheckedIndex = cursor.getColumnIndexOrThrow(COLUMN_LAST_CHECKED);
@@ -438,8 +438,8 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao, Def
             if (p.getExpired() != null) {
                 initialValues.put(COLUMN_EXPIRED, p.getExpired().getTime());
             }
-            if (p.getShoppingList() != null)
-                initialValues.put(COLUMN_ID_SHOPPING_LIST, p.getShoppingList().getId());
+            if (p.getGrocery() != null)
+                initialValues.put(COLUMN_ID_SHOPPING_LIST, p.getGrocery().getId());
             initialValues.put(COLUMN_LAST_CHECKED, p.getLastChecked().getTime());
             initialValues.put(COLUMN_ORDER_IN_GROUP, p.getOrderInGroup());
             if (p.getState() != null)

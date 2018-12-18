@@ -6,14 +6,14 @@ import java.util.ArrayList;
  * Created by TienTruong on 7/12/2018.
  */
 
-public class ShoppingList {
+public class Grocery {
     private String id;
     private String name;
     private int color;
     private boolean isActive;
     private ArrayList<Product> products;
 
-    public ShoppingList() {
+    public Grocery() {
     }
 
 

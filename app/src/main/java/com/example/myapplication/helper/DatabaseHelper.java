@@ -11,8 +11,8 @@ import com.example.myapplication.dao.CategoryDao;
 import com.example.myapplication.dao.CategoryDaoImpl;
 import com.example.myapplication.dao.ProductDao;
 import com.example.myapplication.dao.ProductDaoImpl;
-import com.example.myapplication.dao.ShoppingListDao;
-import com.example.myapplication.dao.ShoppingListDaoImpl;
+import com.example.myapplication.dao.GroceryDao;
+import com.example.myapplication.dao.GroceryDaoImpl;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase myDatabase;
     private Context mContext;
     public static ProductDao mProductDao;
-    public static ShoppingListDao mShoppingListDao;
+    public static GroceryDao mShoppingListDao;
     public static CategoryDao mCategoryDao;
 
     public DatabaseHelper(Context context) {
@@ -44,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "Database openning...");
         myDatabase = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
         mProductDao = new ProductDaoImpl(myDatabase);
-        mShoppingListDao = new ShoppingListDaoImpl(myDatabase);
+        mShoppingListDao = new GroceryDaoImpl(myDatabase);
         mCategoryDao = new CategoryDaoImpl(myDatabase);
     }
 

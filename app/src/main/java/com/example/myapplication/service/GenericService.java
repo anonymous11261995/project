@@ -4,10 +4,10 @@ import android.content.Context;
 
 import com.example.myapplication.dao.CategoryDao;
 import com.example.myapplication.dao.ProductDao;
-import com.example.myapplication.dao.ShoppingListDao;
+import com.example.myapplication.dao.GroceryDao;
 import com.example.myapplication.entity.Category;
+import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
-import com.example.myapplication.entity.ShoppingList;
 import com.example.myapplication.helper.DatabaseHelper;
 import com.example.myapplication.utils.DefinitionSchema;
 
@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 public class GenericService implements DefinitionSchema {
     ProductDao mProductDao;
-    ShoppingListDao mShoppingListDao;
+    GroceryDao mShoppingListDao;
     CategoryDao mCategoryDao;
     Context mContext;
 
@@ -49,9 +49,9 @@ public class GenericService implements DefinitionSchema {
         if (name.trim().equals("")) {
             return false;
         }
-        ArrayList<ShoppingList> shoppingLists = mShoppingListDao.fetchAllShoppingList();
-        for (ShoppingList shoppingList : shoppingLists) {
-            if (name.equals(shoppingList.getName())) {
+        ArrayList<Grocery> groceries = mShoppingListDao.fetchAllShoppingList();
+        for (Grocery grocery : groceries) {
+            if (name.equals(grocery.getName())) {
                 return false;
             }
         }
@@ -69,9 +69,9 @@ public class GenericService implements DefinitionSchema {
         return str;
     }
 
-    void orderProductInGroup(Category category, ShoppingList shoppingList) {
+    void orderProductInGroup(Category category, Grocery grocery) {
         String idCategory = category.getId();
-        ArrayList<Product> list = mProductDao.getProductByCategoryAndShopping(idCategory, shoppingList.getId());
+        ArrayList<Product> list = mProductDao.getProductByCategoryAndShopping(idCategory, grocery.getId());
         for (int i = 0; i < list.size(); i++) {
             Product product = list.get(i);
             product.setOrderInGroup(i + 1);

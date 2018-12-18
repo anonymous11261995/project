@@ -82,7 +82,7 @@ public interface DefinitionSchema {
     String SHARE_PREFERENCES_IS_FIRST_TIME_LAUNCH = "is_first_time_launch";
 
     String SHARE_PREFERENCES_FRAGMENT_ACTIVE = "fragment_active";
-    String SHOPPING_LIST_ACTIVE = "shopping_list";
+    String SHOPPING_LIST_ACTIVE = "products";
     String RECIPE_BOOK_ACITVE = "recipe_book";
     String PANTRY_LIST_ACTIVE = "pantry_list";
 

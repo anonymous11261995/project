@@ -29,7 +29,7 @@ public class Product implements DefinitionSchema {
     private Date expired;
     private boolean isHide;
     private Category category;
-    private ShoppingList shoppingList;
+    private Grocery grocery;
 
     public Product() {
         this.note = "";
@@ -148,12 +148,12 @@ public class Product implements DefinitionSchema {
         this.category = category;
     }
 
-    public ShoppingList getShoppingList() {
-        return shoppingList;
+    public Grocery getGrocery() {
+        return grocery;
     }
 
-    public void setShoppingList(ShoppingList shoppingList) {
-        this.shoppingList = shoppingList;
+    public void setGrocery(Grocery grocery) {
+        this.grocery = grocery;
     }
 
     public String getUnit() {

@@ -115,7 +115,7 @@ public class ProductDetailFragment extends Fragment implements DefinitionSchema,
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        activeFragment(new ShoppingListFragment());
+                        activeFragment(new ProductsFragment());
                     }
                 }, AppConfig.DELAY_EFFECT);
                 break;
@@ -125,7 +125,7 @@ public class ProductDetailFragment extends Fragment implements DefinitionSchema,
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        activeFragment(new ShoppingListFragment());
+                        activeFragment(new ProductsFragment());
                     }
                 }, AppConfig.DELAY_EFFECT);
                 break;
@@ -324,7 +324,7 @@ public class ProductDetailFragment extends Fragment implements DefinitionSchema,
 
             public void onClick(DialogInterface dialog, int which) {
                 mProductService.deleteProductFromList(mProduct);
-                activeFragment(new ShoppingListFragment());
+                activeFragment(new ProductsFragment());
             }
         });
 

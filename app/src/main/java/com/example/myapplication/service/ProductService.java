@@ -7,11 +7,8 @@ import android.util.Log;
 import com.example.myapplication.AppConfig;
 import com.example.myapplication.R;
 import com.example.myapplication.entity.Category;
+import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
-import com.example.myapplication.entity.ShoppingList;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 import java.util.ArrayList;
@@ -22,7 +19,7 @@ public class ProductService extends GenericService{
     private static final String TAG = ProductService.class.getSimpleName();
     private Context mContext;
     private CategoryService mCategoryService;
-    private ShoppingListService mShoppingListService;
+    private GroceryService mShoppingListService;
     private static final String CURRENCY_DEFUALT = AppConfig.getCurrencySymbol();
 
     public ProductService(Context context) {
@@ -471,8 +468,8 @@ public class ProductService extends GenericService{
     }
 
     public void deleteProductFromList(Product product) {
-        ShoppingList shoppingList = new ShoppingList();
-        product.setShoppingList(shoppingList);
+        Grocery grocery = new Grocery();
+        product.setGrocery(grocery);
         mProductDao.update(product);
     }
 
@@ -561,7 +558,7 @@ public class ProductService extends GenericService{
 
 
 //screen shopping
-    public ArrayList<Product> productSnoozeShopping(ShoppingList list) {
+    public ArrayList<Product> productSnoozeShopping(Grocery list) {
         String query ="select * from product_user " +
                 "where id_shopping_list = '" + list.getId() + "' and field_2 = '1' " ;
         ArrayList<Product> result = mProductDao.findByQuery(query);
@@ -569,8 +566,8 @@ public class ProductService extends GenericService{
     }
 
     //get data for shopping
-    public ArrayList<Product> productShoppingUnChecked(ShoppingList shoppingList) {
-        String listID = shoppingList.getId();
+    public ArrayList<Product> productShoppingUnChecked(Grocery grocery) {
+        String listID = grocery.getId();
         ArrayList<Product> result = new ArrayList<>();
         String query = "select product_user.* from product_user " +
                 "inner join category on id_category = category.id " +
@@ -581,7 +578,7 @@ public class ProductService extends GenericService{
             Product productFirst = new Product();
             Category category = this.getCategoryOfProduct(productsHaveCategory.get(0));
             productFirst.setCategory(category);
-            productFirst.setShoppingList(shoppingList);
+            productFirst.setGrocery(grocery);
             productsHaveCategory.add(0, productFirst);
             int lengh = productsHaveCategory.size();
             for (int i = 1; i < lengh; i++) {
@@ -593,7 +590,7 @@ public class ProductService extends GenericService{
                     Product product = new Product();
                     category = this.getCategoryOfProduct(productsHaveCategory.get(i));
                     product.setCategory(category);
-                    product.setShoppingList(shoppingList);
+                    product.setGrocery(grocery);
                     productsHaveCategory.add(i, product);
                     lengh++;
                 }
@@ -613,14 +610,14 @@ public class ProductService extends GenericService{
         }
         for (Product product : productsNoCategory) {
             product.setCategory(uncategory);
-            product.setShoppingList(shoppingList);
+            product.setGrocery(grocery);
             result.add(product);
         }
         result.addAll(productsHaveCategory);
         return result;
     }
 
-    public ArrayList<Product> productShoppingChecked(ShoppingList list) {
+    public ArrayList<Product> productShoppingChecked(Grocery list) {
         String query ="select * from product_user " +
                 "where is_checked = 1 and id_shopping_list = '" + list.getId() + "' " +
                 "order by last_checked desc";
@@ -633,7 +630,7 @@ public class ProductService extends GenericService{
             category.setName(mContext.getResources().getString(R.string.default_category_bought));
             category.setOrderView(-1);
             productCategory.setCategory(category);
-            productCategory.setShoppingList(list);
+            productCategory.setGrocery(list);
             result.add(0, productCategory);
         }
         return result;

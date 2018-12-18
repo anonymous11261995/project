@@ -1,5 +1,7 @@
 package com.example.myapplication.fragment;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,12 +18,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.GroceryAdapter;
-import com.example.myapplication.entity.ShoppingList;
-import com.example.myapplication.service.ShoppingListService;
+import com.example.myapplication.dialog.DialogCustomLayout;
+import com.example.myapplication.entity.Grocery;
+import com.example.myapplication.service.GroceryService;
 
 import java.util.ArrayList;
 
@@ -33,6 +38,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     ImageView mButtonAddNewList;
     RecyclerView mRecyclerView;
     GroceryAdapter mAdapter;
+    GroceryService mGroceryService;
 
 
     @Nullable
@@ -45,10 +51,12 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mGroceryService = new GroceryService(getContext());
         setHasOptionsMenu(true);
         initViews();
         setUpRecyclerView();
         setOnListener();
+        hideSoftKeyBoard();
 
 
     }
@@ -73,7 +81,27 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.btn_add_new_list:
+                DialogCustomLayout dialogCustomLayout = new DialogCustomLayout(getContext());
+                String message = getString(R.string.dialog_message_create_list);
+                dialogCustomLayout.onCreate(message, "");
+                dialogCustomLayout.setListener(new DialogCustomLayout.OnClickListener() {
+                    @Override
+                    public void onClickPositiveButton(DialogInterface dialog, String text) {
+                        if (mGroceryService.checkBeforeUpdateList(text)) {
+                            mGroceryService.createNewListShopping(text);
+                            mAdapter.customNotifyItemInserted();
+                        } else {
+                            hideSoftKeyBoard();
+                            Toast.makeText(getContext(), getResources().getString(R.string.toast_duplicate_name), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                break;
+            default:
+                break;
+        }
 
     }
 
@@ -91,14 +119,13 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setOnListener() {
+        mButtonAddNewList.setOnClickListener(this);
 
 
     }
 
     private void setUpRecyclerView() {
-        ShoppingListService service = new ShoppingListService(getContext());
-
-        ArrayList<ShoppingList> data =  service.getAllShoppingList();
+        ArrayList<Grocery> data = mGroceryService.getAllShoppingList();
         mRecyclerView.setHasFixedSize(true);
         //mRecyclerView.setItemViewCacheSize(AppConfig.ITEM_CACHE_LIST);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -108,13 +135,21 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
 
         mAdapter.setOnClickListener(new GroceryAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(ShoppingList object, int position) {
-                ShoppingListFragment fragment = new ShoppingListFragment();
+            public void onItemClick(Grocery object, int position) {
+                ProductsFragment fragment = new ProductsFragment();
                 fragment.setShoppingList(object);
                 activeFragment(fragment);
             }
         });
 
+    }
+
+    private void hideSoftKeyBoard() {
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void activeFragment(Fragment fragment) {

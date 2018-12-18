@@ -10,18 +10,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.entity.ShoppingList;
+import com.example.myapplication.entity.Grocery;
+import com.example.myapplication.service.GroceryService;
 
 import java.util.ArrayList;
 
 public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private OnItemClickListener listener;
     private Context mContext;
-    private ArrayList<ShoppingList> mData;
+    private ArrayList<Grocery> mData;
+    private GroceryService mGroceryService;
 
-    public GroceryAdapter(Context context, ArrayList<ShoppingList> data) {
+    public GroceryAdapter(Context context, ArrayList<Grocery> data) {
         this.mContext = context;
         this.mData = data;
+        mGroceryService = new GroceryService(context);
     }
 
     @NonNull
@@ -36,13 +39,21 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         ItemHolder holder = (ItemHolder) viewHolder;
-        ShoppingList object = mData.get(i);
+        Grocery object = mData.get(i);
         holder.itemName.setText(object.getName());
     }
 
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+
+    public void customNotifyItemInserted(){
+        ArrayList<Grocery> data = mGroceryService.getAllShoppingList();
+        mData.clear();
+        mData.addAll(data);
+        notifyDataSetChanged();
     }
 
 
@@ -73,7 +84,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public interface OnItemClickListener {
-        void onItemClick(ShoppingList object, int position);
+        void onItemClick(Grocery object, int position);
     }
 
     public void setOnClickListener(OnItemClickListener listener) {

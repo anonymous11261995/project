@@ -23,17 +23,17 @@ import com.example.myapplication.AppConfig;
 import com.example.myapplication.R;
 import com.example.myapplication.dialog.CustomDialog;
 import com.example.myapplication.entity.Category;
+import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
-import com.example.myapplication.entity.ShoppingList;
 import com.example.myapplication.fragment.ProductDetailFragment;
-import com.example.myapplication.fragment.ShoppingListFragment;
+import com.example.myapplication.fragment.ProductsFragment;
 import com.example.myapplication.helper.SwipeAndDragShoppingHelper;
 import com.example.myapplication.holder.HeaderListProductHolder;
 import com.example.myapplication.holder.ProductCheckedHeaderHolder;
 import com.example.myapplication.holder.ProductCheckedItemHolder;
 import com.example.myapplication.holder.ProductItemHolder;
 import com.example.myapplication.service.ProductService;
-import com.example.myapplication.service.ShoppingListService;
+import com.example.myapplication.service.GroceryService;
 import com.example.myapplication.utils.DefinitionSchema;
 
 import java.util.ArrayList;
@@ -56,11 +56,11 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int HEADER_CHECKED_TYPE = 4;
     private Context mContext;
     private FragmentActivity mActivity;
-    private ShoppingListService mShoppingListService;
+    private GroceryService mShoppingListService;
     private ProductService mProductService;
     private ItemTouchHelper touchHelper;
     private ArrayList<Product> mData = new ArrayList<>();
-    private ShoppingList mShoppingList;
+    private Grocery mGrocery;
 
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     private HashMap<String, Runnable> pendingRemove = new HashMap<>();
@@ -70,13 +70,13 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ArrayList<String> mItemsPendingSnooze = new ArrayList<>();
 
 
-    public ShoppingListAdapter(FragmentActivity activity, Context context, ArrayList<Product> data, ShoppingList shoppingList) {
+    public ShoppingListAdapter(FragmentActivity activity, Context context, ArrayList<Product> data, Grocery grocery) {
         this.mContext = context;
         this.mActivity = activity;
-        this.mShoppingListService = new ShoppingListService(context);
+        this.mShoppingListService = new GroceryService(context);
         this.mProductService = new ProductService(context);
         this.mData.addAll(data);
-        this.mShoppingList = shoppingList;
+        this.mGrocery = grocery;
     }
 
     @Override
@@ -312,12 +312,12 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void buildViewShoppingList() {
         mData.clear();
-        ArrayList<Product> products = mShoppingListService.productShoppingSrceen(mShoppingList);
+        ArrayList<Product> products = mShoppingListService.productShoppingSrceen(mGrocery);
         mData.addAll(products);
         if (mData.size() == 0) {
-            ShoppingListFragment.mGuide.setVisibility(View.VISIBLE);
+            ProductsFragment.mGuide.setVisibility(View.VISIBLE);
         } else {
-            ShoppingListFragment.mGuide.setVisibility(View.GONE);
+            ProductsFragment.mGuide.setVisibility(View.GONE);
         }
         notifyDataSetChanged();
         buidInfoShoppingList();
@@ -548,14 +548,14 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         String countListText = String.valueOf(itemList);
         if (itemList == 0.0) {
             Log.d(TAG, "hide info list");
-            ShoppingListFragment.mLayoutInfo.setVisibility(View.GONE);
+            ProductsFragment.mLayoutInfo.setVisibility(View.GONE);
 
         } else {
-            ShoppingListFragment.mLayoutInfo.setVisibility(View.VISIBLE);
-            ShoppingListFragment.mCartPriceInfo.setText(priceCartText);
-            ShoppingListFragment.mCartCountInfo.setText(countCartText);
-            ShoppingListFragment.mListCountInfo.setText(countListText);
-            ShoppingListFragment.mListPriceInfo.setText(priceListText);
+            ProductsFragment.mLayoutInfo.setVisibility(View.VISIBLE);
+            ProductsFragment.mCartPriceInfo.setText(priceCartText);
+            ProductsFragment.mCartCountInfo.setText(countCartText);
+            ProductsFragment.mListCountInfo.setText(countListText);
+            ProductsFragment.mListPriceInfo.setText(priceListText);
 
         }
     }
