@@ -11,9 +11,8 @@ import java.util.ArrayList;
  */
 
 public interface GroceryDao {
-     Grocery fetchShoppingListById(String id);
-     Grocery fetchShoppingListByName(String name);
-     ArrayList<Grocery> fetchAllShoppingList();
+     Grocery findByName(String name);
+     ArrayList<Grocery> fetchAll();
     // add user
      boolean create(Grocery grocery);
      boolean update(Grocery grocery);

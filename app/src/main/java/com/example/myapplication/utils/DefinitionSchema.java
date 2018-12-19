@@ -8,7 +8,6 @@ public interface DefinitionSchema {
     //denifition database
     String PRODUCT_HISTORY_TABLE = "product_system";
     String PRODUCT_USER_TABLE = "product_user";
-    String SHOPPING_LIST_TABLE = "shopping_list";
     String PANTRY_LIST_TABLE = "pantry_list";
     String CATEGORY_TABLE = "category";
     String COLUMN_ID = "id";
@@ -34,11 +33,14 @@ public interface DefinitionSchema {
     String COLUMN_CODE_COLOR = "field_1";
     String COLUMN_PRODUCT_HIDE = "field_2";
 
-    String[] PANTRY_LIST_COLUMNS = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_IS_ACVITE};
-    String[] PRODUCT_COLUMNS = new String[]{COLUMN_ID, COLUMN_ORDER_IN_GROUP, COLUMN_LAST_CHECKED, COLUMN_ID_CATEGORY, COLUMN_ID_SHOPPING_LIST, COLUMN_NAME, COLUMN_CREATE, COLUMN_MODIFIED, COLUMN_NOTE, COLUMN_QUANITY, COLUMN_UNIT, COLUMN_UNIT_PRICE, COLUMN_IS_HISTORY, COLUMN_IS_CHECKED, COLUMN_ID_PANTRY_LIST, COLUMN_ID_STATE, COLUMN_SRC_URL, COLUMN_PRODUCT_HIDE};
-    String[] SHOPPING_LIST_COLUMNS = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_IS_ACVITE, COLUMN_CODE_COLOR};
+
+    String PRODUCT_TABLE = "product";
+    String SHOPPING_LIST_TABLE = "grocery_list";
+
+    String[] PRODUCT_COLUMNS = new String[]{"id","id_grocery_list","name","created","quantity","unit","order","is_history","is_purchased"};
+    String[] GROCERY_LIST_COLUMNS = new String[]{"id","name","is_active","created","color"};
     String[] CATEGORY_COLUMNS = new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_ORDER_VIEW};
-    String[] PRODUCT_HISTORY_COLUMNS = new String[]{COLUMN_ID, COLUMN_ID_CATEGORY, COLUMN_NAME, COLUMN_CREATE, COLUMN_MODIFIED, COLUMN_NOTE, COLUMN_QUANITY, COLUMN_UNIT, COLUMN_UNIT_PRICE};
+
 
     String JSON_KEY_CODE = "code";
     String JSON_KEY_NAME = "name";

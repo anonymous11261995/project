@@ -13,14 +13,6 @@ public class AppConfig {
     //
     public static final String DATABASE_NAME = "data.db";
     public static final int DATABASE_VERSION = 1;
-    public static final String DATEBASE_FILE_NAME = "recipe_book.json";
-    public static final String DATABASE_FILE_WIKI = "wiki_ingredient.json";
-    public static final String RECIPE_BOOK_FOLDER_NAME = "recipe_book";
-    public static final String SITE_COOKPAD = "https://cookpad.com";
-    public static final String SITE_ALLRECIPES = "https://www.allrecipes.com";
-    public static final String SITE_GENIUSKITCHEN = "https://www.geniuskitchen.com/recipe";
-    public static final String URL_FEEDBACK = "https://www.messenger.com/t/blistapp";
-    public static final String ADMOB_APP_ID = "ca-app-pub-6672972571022224~7914884706";
     // time 12h:  12 * 3600
     public static final int PENDING_TIMEOUT = 2000;
     public static final int DELAY_EFFECT = 350;

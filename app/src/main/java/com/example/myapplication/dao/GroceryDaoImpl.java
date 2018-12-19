@@ -12,6 +12,7 @@ import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.utils.DefinitionSchema;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by TienTruong on 7/20/2018.
@@ -25,62 +26,9 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
         super(db);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected Grocery cursorToEntity(Cursor cursor) {
-        Grocery grocery = new Grocery();
-        int idIndex, nameIndex, isActiveIndex, colorIndex;
-
-        if (cursor != null) {
-            if (cursor.getColumnIndex(COLUMN_ID) != -1) {
-                idIndex = cursor.getColumnIndexOrThrow(COLUMN_ID);
-                grocery.setId(cursor.getString(idIndex));
-            }
-            if (cursor.getColumnIndex(COLUMN_NAME) != -1) {
-                nameIndex = cursor.getColumnIndexOrThrow(
-                        COLUMN_NAME);
-                grocery.setName(cursor.getString(nameIndex));
-            }
-
-            if (cursor.getColumnIndex(COLUMN_IS_ACVITE) != -1) {
-                isActiveIndex = cursor.getColumnIndexOrThrow(COLUMN_IS_ACVITE);
-                if (cursor.getInt(isActiveIndex) == 0) {
-                    grocery.setActive(false);
-                } else {
-                    grocery.setActive(true);
-                }
-            }
-            if (cursor.getColumnIndex(COLUMN_CODE_COLOR) != -1) {
-                colorIndex = cursor.getColumnIndexOrThrow(COLUMN_CODE_COLOR);
-                grocery.setColor(cursor.getInt(colorIndex));
-            }
-        }
-
-        return grocery;
-    }
-
 
     @Override
-    public Grocery fetchShoppingListById(String id) {
-        final String selectionArgs[] = {String.valueOf(id)};
-        final String selection = COLUMN_ID + " = ?";
-        Grocery grocery = new Grocery();
-        cursor = super.query(SHOPPING_LIST_TABLE, SHOPPING_LIST_COLUMNS, selection,
-                selectionArgs, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                grocery = cursorToEntity(cursor);
-                cursor.moveToNext();
-            }
-            cursor.close();
-        }
-
-        return grocery;
-    }
-
-    @Override
-    public Grocery fetchShoppingListByName(String name) {
+    public Grocery findByName(String name) {
         final String selectionArgs[] = {String.valueOf(name)};
         final String selection = COLUMN_NAME + " = ?";
         Grocery grocery = new Grocery();
@@ -99,7 +47,7 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
     }
 
     @Override
-    public ArrayList<Grocery> fetchAllShoppingList() {
+    public ArrayList<Grocery> fetchAll() {
         ArrayList<Grocery> list = new ArrayList<>();
         cursor = super.query(SHOPPING_LIST_TABLE, SHOPPING_LIST_COLUMNS, null,
                 null, COLUMN_NAME);
@@ -173,12 +121,52 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
         return grocery;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Grocery cursorToEntity(Cursor cursor) {
+        Grocery grocery = new Grocery();
+        int idIndex, nameIndex, isActiveIndex, colorIndex, createdIndex;
+
+        if (cursor != null) {
+            if (cursor.getColumnIndex("id") != -1) {
+                idIndex = cursor.getColumnIndexOrThrow("id");
+                grocery.setId(cursor.getString(idIndex));
+            }
+            if (cursor.getColumnIndex("name") != -1) {
+                nameIndex = cursor.getColumnIndexOrThrow(
+                        "name");
+                grocery.setName(cursor.getString(nameIndex));
+            }
+
+            if (cursor.getColumnIndex("is_active") != -1) {
+                isActiveIndex = cursor.getColumnIndexOrThrow("is_active");
+                if (cursor.getInt(isActiveIndex) == 0) {
+                    grocery.setActive(false);
+                } else {
+                    grocery.setActive(true);
+                }
+            }
+            if (cursor.getColumnIndex("color") != -1) {
+                colorIndex = cursor.getColumnIndexOrThrow("color");
+                grocery.setColor(cursor.getInt(colorIndex));
+            }
+            if (cursor.getColumnIndex("created") != -1) {
+                createdIndex = cursor.getColumnIndexOrThrow("created");
+                grocery.setCreated(new Date(cursor.getLong(createdIndex)));
+            }
+        }
+
+        return grocery;
+    }
+
+
     private void setContentValue(Grocery grocery) {
         initialValues = new ContentValues();
-        initialValues.put(COLUMN_ID, grocery.getId());
-        initialValues.put(COLUMN_NAME, grocery.getName());
-        initialValues.put(COLUMN_IS_ACVITE, grocery.isActive());
+        initialValues.put("id", grocery.getId());
+        initialValues.put("name", grocery.getName());
+        initialValues.put("is_active", grocery.isActive());
         initialValues.put(COLUMN_CODE_COLOR, grocery.getColor());
+        initialValues.put("created", grocery.getCreated().getTime());
     }
 
     private ContentValues getContentValue() {

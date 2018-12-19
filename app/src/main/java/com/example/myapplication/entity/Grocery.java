@@ -1,6 +1,7 @@
 package com.example.myapplication.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by TienTruong on 7/12/2018.
@@ -9,13 +10,13 @@ import java.util.ArrayList;
 public class Grocery {
     private String id;
     private String name;
+    private Date created;
     private int color;
     private boolean isActive;
     private ArrayList<Product> products;
 
     public Grocery() {
     }
-
 
     public String getId() {
         return id;
@@ -33,12 +34,12 @@ public class Grocery {
         this.name = name;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     public int getColor() {
@@ -47,6 +48,14 @@ public class Grocery {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public ArrayList<Product> getProducts() {

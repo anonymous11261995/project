@@ -315,12 +315,11 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ArrayList<Product> products = mShoppingListService.productShoppingSrceen(mGrocery);
         mData.addAll(products);
         if (mData.size() == 0) {
-            ProductsFragment.mGuide.setVisibility(View.VISIBLE);
+            ProductsFragment.mTextEmpty.setVisibility(View.VISIBLE);
         } else {
-            ProductsFragment.mGuide.setVisibility(View.GONE);
+            ProductsFragment.mTextEmpty.setVisibility(View.GONE);
         }
         notifyDataSetChanged();
-        buidInfoShoppingList();
     }
 
     @Override
@@ -519,46 +518,6 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private void buidInfoShoppingList() {
-        Double priceCart = 0.0, priceList = 0.0;
-        int itemCart = 0, itemList = 0;
-        for (Product product : mData) {
-            if (!TextUtils.isEmpty(product.getName())) {
-                Double price = (product.getQuantity() * product.getUnitPrice());
-                if (product.isChecked()) {
-                    itemList++;
-                    priceList += price;
-                    itemCart++;
-                    priceCart += price;
-                } else {
-                    itemList++;
-                    priceList += price;
-                }
-            }
-        }
-        String priceCartText = CURRENCY_DEFUALT + mProductService.parserPrice(priceCart);
-        String priceListText = CURRENCY_DEFUALT + mProductService.parserPrice(priceList);
-        if (priceCart == 0.0) {
-            priceCartText = CURRENCY_DEFUALT + "0.0";
-        }
-        if (priceList == 0.0) {
-            priceListText = CURRENCY_DEFUALT + "0.0";
-        }
-        String countCartText = String.valueOf(itemCart);
-        String countListText = String.valueOf(itemList);
-        if (itemList == 0.0) {
-            Log.d(TAG, "hide info list");
-            ProductsFragment.mLayoutInfo.setVisibility(View.GONE);
-
-        } else {
-            ProductsFragment.mLayoutInfo.setVisibility(View.VISIBLE);
-            ProductsFragment.mCartPriceInfo.setText(priceCartText);
-            ProductsFragment.mCartCountInfo.setText(countCartText);
-            ProductsFragment.mListCountInfo.setText(countListText);
-            ProductsFragment.mListPriceInfo.setText(priceListText);
-
-        }
-    }
 
     public ArrayList<Product> getData() {
         return mData;
