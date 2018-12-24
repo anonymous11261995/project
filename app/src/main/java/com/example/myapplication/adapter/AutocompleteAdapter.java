@@ -57,18 +57,6 @@ public class AutocompleteAdapter extends ArrayAdapter<String> {
 
                 }
             });
-            ImageView imageDelete = row.findViewById(R.id.image_delete);
-            imageDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mService.deleteItemAutocomplete(text);
-                    tempItems.remove(text);
-                    suggestions.remove(position);
-                    clear();
-                    addAll(suggestions);
-
-                }
-            });
 
         } catch (Exception e) {
             Log.w("Error", "Autocomplete: " + e.getMessage());

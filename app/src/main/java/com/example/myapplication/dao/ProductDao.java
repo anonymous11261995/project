@@ -13,10 +13,6 @@ import java.util.ArrayList;
 public interface ProductDao {
     ArrayList<Product> fetchAll();
 
-    ArrayList<Product> findByIdShopping(String name);
-
-    ArrayList<Product> findByIdPantry(String name);
-
     ArrayList<Product> findByName(String name);
 
     Product findById(String id);
@@ -24,24 +20,6 @@ public interface ProductDao {
     boolean update(Product item);
 
     boolean create(Product item);
-
-    ArrayList<Product> query(String query);
-
-    ArrayList<Product> getProductByCategory(String idCategory);
-
-    ArrayList<Product> getProductByCategoryAndShopping(String idCategory, String idShoppingList);
-
-    ArrayList<Product> getAllProductUser();
-
-//    ArrayList<Product> productPantryCategory(String idPantry);
-//
-//    ArrayList<Product> productPantryNoCategory(String idPantry);
-
-    ArrayList<Product> getProductByCategoryAndPantry(String idCategory, String idPantry);
-
-    ArrayList<Product> getAllProductShopping(String idList);
-
-    ArrayList<Product> getAllProductPantry(String idList);
 
     ArrayList<Product> findByQuery(String query);
 

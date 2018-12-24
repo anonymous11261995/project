@@ -140,9 +140,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
         mAdapter.setOnClickListener(new GroceryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Grocery object, int position) {
-                ProductsFragment fragment = new ProductsFragment();
-                fragment.setShoppingList(object);
-                activeFragment(fragment);
+                activeFragment(new ProductsFragment());
             }
 
             @Override
@@ -155,7 +153,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                                     case 0:
                                         break;
                                     case 1:
-                                        Log.d(TAG,"case 1");
+                                        Log.d(TAG, "case 1");
                                         break;
                                     case 2:
                                         break;
@@ -165,7 +163,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                                         dialogRename.setListener(new DialogRename.OnClickListener() {
                                             @Override
                                             public void onClickPositiveButton(DialogInterface dialog, String name) {
-                                                
+
                                             }
                                         });
                                         break;

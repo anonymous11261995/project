@@ -8,8 +8,7 @@ import java.util.regex.Pattern;
  */
 
 public class AppUtil {
-    public static final String COLLECTION_GROCERY_PATH = "Grocery";
-    public static final String COLLECTION_PRODUCT_PATH = "Product";
+    public static String SHARE_PREFERENCES_PREF_NAME = "MyApp";
 
     public static String convertStringToUrl(String str) {
         try {

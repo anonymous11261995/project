@@ -7,8 +7,6 @@ import android.util.Log;
 
 
 import com.example.myapplication.AppConfig;
-import com.example.myapplication.dao.CategoryDao;
-import com.example.myapplication.dao.CategoryDaoImpl;
 import com.example.myapplication.dao.ProductDao;
 import com.example.myapplication.dao.ProductDaoImpl;
 import com.example.myapplication.dao.GroceryDao;
@@ -32,7 +30,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private Context mContext;
     public static ProductDao mProductDao;
     public static GroceryDao mGroceryDao;
-    public static CategoryDao mCategoryDao;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -45,7 +42,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         myDatabase = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
         mProductDao = new ProductDaoImpl(myDatabase);
         mGroceryDao = new GroceryDaoImpl(myDatabase);
-        mCategoryDao = new CategoryDaoImpl(myDatabase);
     }
 
     public boolean isOpening() {

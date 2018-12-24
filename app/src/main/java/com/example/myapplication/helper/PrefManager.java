@@ -3,7 +3,7 @@ package com.example.myapplication.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.myapplication.utils.DefinitionSchema;
+import com.example.myapplication.utils.AppUtil;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,25 +13,17 @@ import java.util.Set;
  */
 
 @SuppressWarnings({"FieldCanBeLocal", "CanBeFinal"})
-public class PrefManager implements DefinitionSchema {
+public class PrefManager {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private Context mContext;
 
     public PrefManager(Context context) {
         this.mContext = context;
-        pref = mContext.getSharedPreferences(SHARE_PREFERENCES_PREF_NAME, Context.MODE_PRIVATE);
+        pref = mContext.getSharedPreferences(AppUtil.SHARE_PREFERENCES_PREF_NAME, Context.MODE_PRIVATE);
         editor = pref.edit();
     }
 
-    public void setFirstTimeLaunch(boolean isFirstTime) {
-        editor.putBoolean(SHARE_PREFERENCES_IS_FIRST_TIME_LAUNCH, isFirstTime);
-        editor.commit();
-    }
-
-    public boolean isFirstTimeLaunch() {
-        return pref.getBoolean(SHARE_PREFERENCES_IS_FIRST_TIME_LAUNCH, true);
-    }
 
     public String getString(String key, String defValue) {
         return pref.getString(key, defValue);
