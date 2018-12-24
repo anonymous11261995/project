@@ -10,6 +10,7 @@ import java.util.Date;
 public class Grocery {
     private String id;
     private String name;
+    private String note;
     private Date created;
     private int color;
     private boolean isActive;
@@ -64,5 +65,13 @@ public class Grocery {
 
     public void setProducts(ArrayList<Product> products) {
         this.products = products;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

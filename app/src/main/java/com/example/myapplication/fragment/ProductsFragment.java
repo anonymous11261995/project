@@ -22,21 +22,16 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplication.AppConfig;
 import com.example.myapplication.R;
-import com.example.myapplication.activity.MainActivity;
 import com.example.myapplication.adapter.AutocompleteAdapter;
-import com.example.myapplication.adapter.ShoppingListAdapter;
+import com.example.myapplication.adapter.ProductsAdapter;
 import com.example.myapplication.dialog.CustomDialog;
-import com.example.myapplication.dialog.DialogCustomLayout;
 import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
 import com.example.myapplication.helper.PrefManager;
@@ -62,7 +57,7 @@ public class ProductsFragment extends Fragment implements DefinitionSchema, View
     AutoCompleteTextView mAutoCompleteTextView;
     ConstraintLayout mLayoutAddItem, mLayoutHeader;
     public static TextView mTextEmpty;
-    ShoppingListAdapter mAdapter;
+    ProductsAdapter mAdapter;
     private GroceryService mShoppingListService;
     private ProductService mProductService;
     private RecyclerView mRecyclerView;
@@ -161,7 +156,7 @@ public class ProductsFragment extends Fragment implements DefinitionSchema, View
         } else {
             mTextEmpty.setVisibility(View.GONE);
         }
-        mAdapter = new ShoppingListAdapter(getActivity(), getContext(), data, mGrocery);
+        mAdapter = new ProductsAdapter(getActivity(), getContext(), data, mGrocery);
         //drag and swipe
         SwipeAndDragShoppingHelper swipeAndDragHelper = new SwipeAndDragShoppingHelper(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, mAdapter, getContext());
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(swipeAndDragHelper);

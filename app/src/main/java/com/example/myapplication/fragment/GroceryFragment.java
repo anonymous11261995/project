@@ -8,10 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +28,9 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.GroceryAdapter;
 import com.example.myapplication.dialog.DialogCustomLayout;
+import com.example.myapplication.dialog.DialogRename;
 import com.example.myapplication.entity.Grocery;
+import com.example.myapplication.helper.SwipeDeleteHelper;
 import com.example.myapplication.service.GroceryService;
 
 import java.util.ArrayList;
@@ -90,7 +95,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClickPositiveButton(DialogInterface dialog, String text) {
                         if (mGroceryService.checkBeforeUpdateList(text)) {
-                            mGroceryService.createNewListShopping(text);
+                            mGroceryService.createList(text);
                             mAdapter.customNotifyItemInserted();
                         } else {
                             hideSoftKeyBoard();
@@ -130,9 +135,8 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
         //mRecyclerView.setItemViewCacheSize(AppConfig.ITEM_CACHE_LIST);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new GroceryAdapter(getContext(), data);
+        mAdapter = new GroceryAdapter(getActivity(), getContext(), data);
         mRecyclerView.setAdapter(mAdapter);
-
         mAdapter.setOnClickListener(new GroceryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Grocery object, int position) {
@@ -140,7 +144,47 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                 fragment.setShoppingList(object);
                 activeFragment(fragment);
             }
+
+            @Override
+            public void onItemLongClick(final Grocery object, int position) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(object.getName())
+                        .setItems(R.array.list_function, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        break;
+                                    case 1:
+                                        Log.d(TAG,"case 1");
+                                        break;
+                                    case 2:
+                                        break;
+                                    case 3:
+                                        DialogRename dialogRename = new DialogRename(getContext());
+                                        dialogRename.show(object.getName());
+                                        dialogRename.setListener(new DialogRename.OnClickListener() {
+                                            @Override
+                                            public void onClickPositiveButton(DialogInterface dialog, String name) {
+                                                
+                                            }
+                                        });
+                                        break;
+                                    case 4:
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
         });
+
+        SwipeDeleteHelper swipeAndDragHelper = new SwipeDeleteHelper(mAdapter, getContext());
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeAndDragHelper);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
     }
 

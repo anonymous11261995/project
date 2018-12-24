@@ -46,8 +46,8 @@ import java.util.HashMap;
  */
 
 @SuppressWarnings("CanBeFinal")
-public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements DefinitionSchema, SwipeAndDragShoppingHelper.ActionCompletionContract {
-    private static final String TAG = ShoppingListAdapter.class.getSimpleName();
+public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements DefinitionSchema, SwipeAndDragShoppingHelper.ActionCompletionContract {
+    private static final String TAG = ProductsAdapter.class.getSimpleName();
     private static final String CURRENCY_DEFUALT = AppConfig.getCurrencySymbol();
     private static final int PENDING_TIMEOUT = AppConfig.PENDING_TIMEOUT; // 3sec
     private static final int ITEM_TYPE = 1;
@@ -70,7 +70,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ArrayList<String> mItemsPendingSnooze = new ArrayList<>();
 
 
-    public ShoppingListAdapter(FragmentActivity activity, Context context, ArrayList<Product> data, Grocery grocery) {
+    public ProductsAdapter(FragmentActivity activity, Context context, ArrayList<Product> data, Grocery grocery) {
         this.mContext = context;
         this.mActivity = activity;
         this.mShoppingListService = new GroceryService(context);

@@ -6,10 +6,8 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-
 import com.example.myapplication.database.DBContentProvider;
 import com.example.myapplication.entity.Grocery;
-import com.example.myapplication.utils.DefinitionSchema;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +16,9 @@ import java.util.Date;
  * Created by TienTruong on 7/20/2018.
  */
 
-public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, DefinitionSchema {
+public class GroceryDaoImpl extends DBContentProvider implements GroceryDao {
+    private final String[] GROCERY_LIST_COLUMNS = new String[]{"id", "name", "active", "created", "color", "note"};
+    private final String GROCERY_TABLE = "grocery";
     private Cursor cursor;
     private ContentValues initialValues;
 
@@ -30,9 +30,9 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
     @Override
     public Grocery findByName(String name) {
         final String selectionArgs[] = {String.valueOf(name)};
-        final String selection = COLUMN_NAME + " = ?";
+        final String selection = "name = ?";
         Grocery grocery = new Grocery();
-        cursor = super.query(SHOPPING_LIST_TABLE, SHOPPING_LIST_COLUMNS, selection,
+        cursor = super.query(GROCERY_TABLE, GROCERY_LIST_COLUMNS, selection,
                 selectionArgs, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -49,8 +49,8 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
     @Override
     public ArrayList<Grocery> fetchAll() {
         ArrayList<Grocery> list = new ArrayList<>();
-        cursor = super.query(SHOPPING_LIST_TABLE, SHOPPING_LIST_COLUMNS, null,
-                null, COLUMN_NAME);
+        cursor = super.query(GROCERY_TABLE, GROCERY_LIST_COLUMNS, null,
+                null, "created");
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -69,7 +69,7 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
     public boolean create(Grocery grocery) {
         setContentValue(grocery);
         try {
-            return super.insert(SHOPPING_LIST_TABLE, getContentValue()) > 0;
+            return super.insert(GROCERY_TABLE, getContentValue()) > 0;
         } catch (SQLiteConstraintException ex) {
             Log.w("DatabaseHelper", ex.getMessage());
             return false;
@@ -80,10 +80,10 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
     @Override
     public boolean update(Grocery grocery) {
         final String selectionArgs[] = {String.valueOf(grocery.getId())};
-        final String selection = COLUMN_ID + " = ?";
+        final String selection = "id = ?";
         setContentValue(grocery);
         try {
-            return super.update(SHOPPING_LIST_TABLE, getContentValue(), selection, selectionArgs) > 0;
+            return super.update(GROCERY_TABLE, getContentValue(), selection, selectionArgs) > 0;
         } catch (SQLiteConstraintException ex) {
             Log.w("Update database", ex.getMessage());
             return false;
@@ -93,9 +93,9 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
     @Override
     public boolean delete(Grocery grocery) {
         final String selectionArgs[] = {String.valueOf(grocery.getId())};
-        final String selection = COLUMN_ID + " = ?";
+        final String selection = "id = ?";
         try {
-            return super.delete(SHOPPING_LIST_TABLE, selection, selectionArgs) > 0;
+            return super.delete(GROCERY_TABLE, selection, selectionArgs) > 0;
         } catch (SQLiteConstraintException ex) {
             Log.w("Update database", ex.getMessage());
             return false;
@@ -103,11 +103,11 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
     }
 
     @Override
-    public Grocery fetchShoppingListActive() {
+    public Grocery getListActive() {
         final String selectionArgs[] = {String.valueOf(1)};
-        final String selection = COLUMN_IS_ACVITE + " = ?";
+        final String selection = "is_active = ?";
         Grocery grocery = new Grocery();
-        cursor = super.query(SHOPPING_LIST_TABLE, SHOPPING_LIST_COLUMNS, selection,
+        cursor = super.query(GROCERY_TABLE, GROCERY_LIST_COLUMNS, selection,
                 selectionArgs, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -121,11 +121,10 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
         return grocery;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected Grocery cursorToEntity(Cursor cursor) {
         Grocery grocery = new Grocery();
-        int idIndex, nameIndex, isActiveIndex, colorIndex, createdIndex;
+        int idIndex, nameIndex, isActiveIndex, colorIndex, createdIndex, noteIndex;
 
         if (cursor != null) {
             if (cursor.getColumnIndex("id") != -1) {
@@ -138,8 +137,8 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
                 grocery.setName(cursor.getString(nameIndex));
             }
 
-            if (cursor.getColumnIndex("is_active") != -1) {
-                isActiveIndex = cursor.getColumnIndexOrThrow("is_active");
+            if (cursor.getColumnIndex("active") != -1) {
+                isActiveIndex = cursor.getColumnIndexOrThrow("active");
                 if (cursor.getInt(isActiveIndex) == 0) {
                     grocery.setActive(false);
                 } else {
@@ -154,6 +153,11 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
                 createdIndex = cursor.getColumnIndexOrThrow("created");
                 grocery.setCreated(new Date(cursor.getLong(createdIndex)));
             }
+
+            if (cursor.getColumnIndex("note") != -1) {
+                noteIndex = cursor.getColumnIndexOrThrow("created");
+                grocery.setNote(cursor.getString(noteIndex));
+            }
         }
 
         return grocery;
@@ -164,9 +168,10 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao, Def
         initialValues = new ContentValues();
         initialValues.put("id", grocery.getId());
         initialValues.put("name", grocery.getName());
-        initialValues.put("is_active", grocery.isActive());
-        initialValues.put(COLUMN_CODE_COLOR, grocery.getColor());
+        initialValues.put("active", grocery.isActive());
+        initialValues.put("color", grocery.getColor());
         initialValues.put("created", grocery.getCreated().getTime());
+        initialValues.put("note", grocery.getNote());
     }
 
     private ContentValues getContentValue() {

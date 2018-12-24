@@ -35,7 +35,7 @@ public interface DefinitionSchema {
 
 
     String PRODUCT_TABLE = "product";
-    String SHOPPING_LIST_TABLE = "grocery_list";
+    String GROCERY_LIST_TABLE = "grocery_list";
 
     String[] PRODUCT_COLUMNS = new String[]{"id","id_grocery_list","name","created","quantity","unit","order","is_history","is_purchased"};
     String[] GROCERY_LIST_COLUMNS = new String[]{"id","name","is_active","created","color"};

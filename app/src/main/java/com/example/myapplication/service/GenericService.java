@@ -27,13 +27,13 @@ import java.util.regex.Pattern;
 
 public class GenericService implements DefinitionSchema {
     ProductDao mProductDao;
-    GroceryDao mShoppingListDao;
+    GroceryDao mGroceryDao;
     CategoryDao mCategoryDao;
     Context mContext;
 
     public GenericService(Context context) {
         this.mProductDao = DatabaseHelper.mProductDao;
-        this.mShoppingListDao = DatabaseHelper.mShoppingListDao;
+        this.mGroceryDao = DatabaseHelper.mGroceryDao;
         this.mCategoryDao = DatabaseHelper.mCategoryDao;
         this.mContext = context;
     }
@@ -45,18 +45,6 @@ public class GenericService implements DefinitionSchema {
         return convertStringToUrl(code);
     }
 
-    public boolean checkBeforeUpdateList(String name) {
-        if (name.trim().equals("")) {
-            return false;
-        }
-        ArrayList<Grocery> groceries = mShoppingListDao.fetchAllShoppingList();
-        for (Grocery grocery : groceries) {
-            if (name.equals(grocery.getName())) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     protected String convertStringToUrl(String str) {
         try {

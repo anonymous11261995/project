@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase myDatabase;
     private Context mContext;
     public static ProductDao mProductDao;
-    public static GroceryDao mShoppingListDao;
+    public static GroceryDao mGroceryDao;
     public static CategoryDao mCategoryDao;
 
     public DatabaseHelper(Context context) {
@@ -44,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "Database openning...");
         myDatabase = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
         mProductDao = new ProductDaoImpl(myDatabase);
-        mShoppingListDao = new GroceryDaoImpl(myDatabase);
+        mGroceryDao = new GroceryDaoImpl(myDatabase);
         mCategoryDao = new CategoryDaoImpl(myDatabase);
     }
 

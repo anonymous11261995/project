@@ -17,5 +17,5 @@ public interface GroceryDao {
      boolean create(Grocery grocery);
      boolean update(Grocery grocery);
      boolean delete(Grocery grocery);
-     Grocery fetchShoppingListActive();
+     Grocery getListActive();
 }

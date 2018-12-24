@@ -69,7 +69,7 @@ public class GroceryService extends GenericService {
         String id = createCodeId(grocery.getName());
         Log.d(TAG, "id shopping list: " + id);
         grocery.setId(id);
-        return mShoppingListDao.create(grocery);
+        return mGroceryDao.create(grocery);
     }
 
     public void clearAllProduct(ArrayList<Product> products) {
@@ -114,12 +114,12 @@ public class GroceryService extends GenericService {
 
     //function test
     public Grocery getShoppingListActive() {
-        Grocery grocery = mShoppingListDao.fetchShoppingListActive();
+        Grocery grocery = mGroceryDao.getListActive();
         if (grocery.getName() == null) {
             ArrayList<Grocery> list = getAllShoppingList();
             if (list.size() != 0) {
                 list.get(0).setActive(true);
-                mShoppingListDao.update(list.get(0));
+                mGroceryDao.update(list.get(0));
                 return list.get(0);
 
             } else {
@@ -177,15 +177,14 @@ public class GroceryService extends GenericService {
     }
 
 
-
     public ArrayList<Grocery> getAllShoppingList() {
         ArrayList<Grocery> result = new ArrayList<>();
-        ArrayList<Grocery> list = mShoppingListDao.fetchAllShoppingList();
+        ArrayList<Grocery> list = mGroceryDao.fetchAll();
         for (Grocery grocery : list) {
             if (grocery.getColor() == 0) {
                 int color = ColorUtils.randomColor(mContext);
                 grocery.setColor(color);
-                mShoppingListDao.update(grocery);
+                mGroceryDao.update(grocery);
             }
             result.add(grocery);
         }
@@ -193,22 +192,18 @@ public class GroceryService extends GenericService {
     }
 
     public void updateList(Grocery grocery) {
-        mShoppingListDao.update(grocery);
+        mGroceryDao.update(grocery);
     }
 
-    public Grocery createNewListShopping(String name) {
-        ArrayList<Grocery> list = getAllShoppingList();
-        for (Grocery grocery : list) {
-            grocery.setActive(false);
-            mShoppingListDao.update(grocery);
-        }
-        Grocery newList = new Grocery();
-        newList.setActive(true);
-        newList.setId(createCodeId(name));
-        newList.setName(name);
-        newList.setColor(ColorUtils.randomColor(mContext));
-        mShoppingListDao.create(newList);
-        return newList;
+    public Grocery createList(String name) {
+        Grocery grocery = new Grocery();
+        grocery.setActive(true);
+        grocery.setId(createCodeId(name));
+        grocery.setName(name);
+        grocery.setColor(ColorUtils.randomColor(mContext));
+        grocery.setCreated(new Date());
+        mGroceryDao.create(grocery);
+        return grocery;
     }
 
     public Grocery activeShopping(String name) {
@@ -221,28 +216,32 @@ public class GroceryService extends GenericService {
             } else {
                 grocery.setActive(false);
             }
-            mShoppingListDao.update(grocery);
+            mGroceryDao.update(grocery);
         }
         return sl;
 
     }
 
-    public void deleteShopping(Grocery grocery) {
-        mShoppingListDao.delete(grocery);
-        if (grocery.isActive()) {
-            ArrayList<Grocery> list = getAllShoppingList();
-            if (list.size() != 0) {
-                Grocery groceryActive = list.get(0);
-                groceryActive.setActive(true);
-                mShoppingListDao.update(groceryActive);
-            }
-        }
-
+    public void deleteList(Grocery grocery) {
+        mGroceryDao.delete(grocery);
 
     }
 
+    public void restoreList(Grocery grocery) {
+        mGroceryDao.create(grocery);
+    }
+
     public Grocery getListByName(String name) {
-        return mShoppingListDao.fetchShoppingListByName(name);
+        return mGroceryDao.findByName(name);
+    }
+
+    public boolean checkBeforeUpdateList(String name) {
+        if (name.trim().equals("")) {
+            return false;
+        }
+        Grocery grocery = mGroceryDao.findByName(name);
+        if (grocery.getName() != null) return false;
+        return true;
     }
 
 
