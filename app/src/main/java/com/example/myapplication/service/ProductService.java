@@ -17,18 +17,15 @@ import java.util.Map;
 public class ProductService extends GenericService {
     private static final String TAG = ProductService.class.getSimpleName();
     private Context mContext;
-    private GroceryService groceryService;
     private static final String CURRENCY_DEFUALT = AppConfig.getCurrencySymbol();
 
     public ProductService(Context context) {
         super(context);
         this.mContext = context;
-        groceryService = new GroceryService(context);
     }
 
     public ArrayList<String> getAutoComplete() {
-        String query = "autocomplete = 1";
-        ArrayList<Product> data = mProductDao.findByName(query);
+        ArrayList<Product> data = mProductDao.findByAutocomplete();
         ArrayList<String> list = new ArrayList<>();
         for (Product p : data) {
             if (p.getName() != null) {

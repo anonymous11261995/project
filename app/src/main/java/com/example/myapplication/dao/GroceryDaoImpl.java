@@ -104,11 +104,10 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao {
 
     @Override
     public Grocery getListActive() {
-        final String selectionArgs[] = {String.valueOf(1)};
-        final String selection = "is_active = ?";
+        String selection = "active = 1";
         Grocery grocery = new Grocery();
         cursor = super.query(GROCERY_TABLE, GROCERY_LIST_COLUMNS, selection,
-                selectionArgs, null);
+                null, null);
         if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {

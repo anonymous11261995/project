@@ -21,7 +21,7 @@ import java.util.Date;
 public class ProductDaoImpl extends DBContentProvider implements ProductDao {
     private final String TAG = ProductDao.class.getName();
     private final String[] PRODUCT_COLUMNS = new String[]{"id", "grocery", "name", "created",
-            "quantity", "order", "autocomplete", "purchased"};
+            "quantity", "order_list", "autocomplete", "purchased"};
     private final String PRODUCT_TABLE = "product";
     private Cursor cursor;
     private ContentValues initialValues;
@@ -73,7 +73,7 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao {
     @Override
     public Product findById(String id) {
         final String selectionArgs[] = {String.valueOf(id)};
-        final String selection =  "id = ?";
+        final String selection = "id = ?";
         Product product = new Product();
         cursor = super.query(PRODUCT_TABLE, PRODUCT_COLUMNS, selection,
                 selectionArgs, null);
@@ -87,6 +87,25 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao {
         }
         return product;
 
+    }
+
+    @Override
+    public ArrayList<Product> findByAutocomplete() {
+
+        final String selection = "autocomplete = 1";
+        ArrayList<Product> list = new ArrayList<>();
+        cursor = super.query(PRODUCT_TABLE, PRODUCT_COLUMNS, selection,
+                null, "created");
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                Product product = cursorToEntity(cursor);
+                list.add(product);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return list;
     }
 
     @Override
@@ -173,7 +192,7 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao {
                 product.setGrocery(grocery);
             }
 
-            orderIndex = cursor.getColumnIndexOrThrow("order");
+            orderIndex = cursor.getColumnIndexOrThrow("order_list");
             product.setOrder(cursor.getInt(orderIndex));
 
         }
@@ -189,7 +208,7 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao {
             initialValues.put("name", product.getName());
             initialValues.put("created", product.getCreated().getTime());
             initialValues.put("quantity", product.getQuantity());
-            initialValues.put("order", product.getOrder());
+            initialValues.put("order_list", product.getOrder());
             initialValues.put("autocomplete", product.isAutocomplete());
             initialValues.put("purchased", product.isPurchased());
             if (product.getGrocery() != null) {

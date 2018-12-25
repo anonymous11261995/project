@@ -140,6 +140,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
         mAdapter.setOnClickListener(new GroceryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Grocery object, int position) {
+                mGroceryService.activeList(object);
                 activeFragment(new ProductsFragment());
             }
 

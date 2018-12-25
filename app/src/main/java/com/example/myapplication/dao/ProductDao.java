@@ -23,5 +23,7 @@ public interface ProductDao {
 
     ArrayList<Product> findByQuery(String query);
 
+    ArrayList<Product> findByAutocomplete();
+
 
 }

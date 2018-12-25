@@ -47,8 +47,21 @@ import java.util.ArrayList;
  */
 
 @SuppressWarnings({"ConstantConditions", "FieldCanBeLocal"})
-public class ProductsFragment extends Fragment implements View.OnClickListener {
-    private static final String TAG = ProductsFragment.class.getSimpleName();
+public class ProductsFragment extends Fragment implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+    private final String TAG = ProductsFragment.class.getSimpleName();
+
+    ImageView mImageBack, mImageMenu, mImageShowLayoutAdd, mImageHideLayoutAdd, mImageInputAdd;
+    TextView mTextNameList;
+    AutoCompleteTextView mAutoCompleteTextView;
+    ConstraintLayout mLayoutAddItem, mLayoutHeader;
+    public static TextView mTextEmpty;
+    ProductsAdapter mAdapter;
+    private GroceryService mGroceryService;
+    private ProductService mProductService;
+    private RecyclerView mRecyclerView;
+    private Grocery mGrocery;
+
+    PrefManager mPrefManager;
 
 
     @Nullable
@@ -62,6 +75,9 @@ public class ProductsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mGroceryService = new GroceryService(getContext());
+        mProductService = new ProductService(getContext());
+        mGrocery = mGroceryService.getListActive();
         // Crashlytics.log(Log.DEBUG, TAG, "onActivityCreated fragment");
         initViews();
         initAutoCompleteTextView();
@@ -73,10 +89,51 @@ public class ProductsFragment extends Fragment implements View.OnClickListener {
 
 
     private void initViews() {
+        mImageBack = getView().findViewById(R.id.image_back_screen);
+        mImageMenu = getView().findViewById(R.id.image_menu);
+        mImageShowLayoutAdd = getView().findViewById(R.id.image_show_layout_add);
+        mImageHideLayoutAdd = getView().findViewById(R.id.image_hide_layout_add);
+        mImageInputAdd = getView().findViewById(R.id.image_input_add);
+        mTextNameList = getView().findViewById(R.id.text_name_list);
+        mTextEmpty = getView().findViewById(R.id.text_empty_list);
+        mAutoCompleteTextView = getView().findViewById(R.id.autocomplete);
+        mLayoutAddItem = getView().findViewById(R.id.layout_add_item);
+        mLayoutHeader = getView().findViewById(R.id.layout_header);
+        mRecyclerView = getView().findViewById(R.id.recycler_view);
+        //set status
+        mTextNameList.setText(mGrocery.getName());
+        mLayoutAddItem.setVisibility(View.GONE);
+        mLayoutHeader.setVisibility(View.VISIBLE);
+        mImageInputAdd.setVisibility(View.GONE);
 
     }
 
     private void setOnListener() {
+        mImageBack.setOnClickListener(this);
+        mImageMenu.setOnClickListener(this);
+        mImageShowLayoutAdd.setOnClickListener(this);
+        mImageHideLayoutAdd.setOnClickListener(this);
+        mImageInputAdd.setOnClickListener(this);
+        mAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().equals("")) {
+                    mImageInputAdd.setVisibility(View.GONE);
+                } else {
+                    mImageInputAdd.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -96,13 +153,119 @@ public class ProductsFragment extends Fragment implements View.OnClickListener {
 
 
     private void initAutoCompleteTextView() {
+        ArrayList<String> data = mProductService.getAutoComplete();
+        final AutocompleteAdapter adapter = new AutocompleteAdapter(getContext(), R.layout.spinner_dropdown_item_layout, data);
+        mAutoCompleteTextView.setAdapter(adapter);
+        mAutoCompleteTextView.setThreshold(1);
+        adapter.setOnClickListener(new AutocompleteAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String text) {
+                Log.d(TAG, "Input user: " + text);
+                if (!text.equals("")) {
+                    addProductToList(text);
+                    buildAgainList();
+                }
+
+            }
+
+        });
+        mAutoCompleteTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    String text = v.getText().toString().trim();
+                    Log.d(TAG, "Input user" + text);
+                    if (!text.equals("")) {
+                        addProductToList(text);
+                        buildAgainList();
+                        hideSoftKeyBoard();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 
 
     @Override
     public void onClick(View v) {
+        int id = v.getId();
+        v.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.click_effect));
+        switch (id) {
+            case R.id.image_back_screen:
+                activeFragment(new GroceryFragment());
+                break;
+            case R.id.image_menu:
+                PopupMenu popup = new PopupMenu(v.getContext(), mImageMenu);
+                popup.inflate(R.menu.products);
+                popup.setOnMenuItemClickListener(this);
+                popup.show();
+                break;
+            case R.id.image_show_layout_add:
+                mLayoutAddItem.setVisibility(View.VISIBLE);
+                mLayoutHeader.setVisibility(View.GONE);
+                mAutoCompleteTextView.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
+                break;
+            case R.id.image_hide_layout_add:
+                mLayoutHeader.setVisibility(View.VISIBLE);
+                mLayoutAddItem.setVisibility(View.GONE);
+                hideSoftKeyBoard();
+                break;
+            case R.id.image_input_add:
+                String text = mAutoCompleteTextView.getText().toString();
+                addProductToList(text);
+                buildAgainList();
+                break;
+            default:
+                break;
 
+        }
+
+
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+
+        CustomDialog customDialog = new CustomDialog(getContext());
+        switch (menuItem.getItemId()) {
+            case R.id.action_move_copy_items:
+
+                return true;
+            case R.id.action_delete_all:
+                //TODO
+                return true;
+            case R.id.action_check_all:
+                //TODO
+                return true;
+            case R.id.action_uncheck_all:
+                //TODO
+                return true;
+            default:
+                return true;
+        }
+    }
+
+    private void addProductToList(String text) {
+        //TODO
+        mAutoCompleteTextView.setText("");
+        //Product product = mShoppingListService.addProductToShopping(text, mGrocery);
+    }
+
+    public void buildAgainList() {
+//        ArrayList<Product> data = mShoppingListService.productShoppingSrceen(mGrocery);
+//        if (data.size() == 0) {
+//            mTextEmpty.setVisibility(View.VISIBLE);
+//        } else {
+//            mTextEmpty.setVisibility(View.GONE);
+//        }
+//        mAdapter.setData(data);
+//        mAdapter.notifyDataSetChanged();
+        //TODO
 
     }
 

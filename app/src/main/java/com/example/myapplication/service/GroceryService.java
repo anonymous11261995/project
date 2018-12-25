@@ -21,13 +21,11 @@ import java.util.Date;
 
 public class GroceryService extends GenericService {
     private static final String TAG = GroceryService.class.getSimpleName();
-    private ProductService mProductService;
     private Context mContext;
 
     public GroceryService(Context context) {
         super(context);
         this.mContext = context;
-        mProductService = new ProductService(context);
     }
 
     public void deleteList(Grocery grocery) {
@@ -73,5 +71,20 @@ public class GroceryService extends GenericService {
         return true;
     }
 
+    public void activeList(Grocery grocery) {
+        ArrayList<Grocery> list = getAllShoppingList();
+        for (Grocery item : list) {
+            if (!item.getId().equals(grocery.getId())) {
+                item.setActive(false);
+                mGroceryDao.update(item);
+            }
+        }
+        grocery.setActive(true);
+        mGroceryDao.update(grocery);
+    }
+
+    public Grocery getListActive(){
+        return mGroceryDao.getListActive();
+    }
 
 }
