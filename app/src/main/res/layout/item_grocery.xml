@@ -9,7 +9,7 @@
         android:layout_height="50dp"
         android:padding="8dp"
         android:id="@+id/layout_item"
-        android:background="@drawable/custom_ripple">
+        android:foreground="@drawable/custom_ripple">
 
         <TextView
             android:id="@+id/text_name"

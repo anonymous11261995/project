@@ -11,9 +11,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.myapplication.R;
-import com.example.myapplication.holder.HeaderListProductHolder;
-import com.example.myapplication.holder.ProductCheckedHeaderHolder;
-import com.example.myapplication.holder.ProductCheckedItemHolder;
 
 
 public class SwipeAndDragShoppingHelper extends ItemTouchHelper.SimpleCallback {
@@ -43,9 +40,7 @@ public class SwipeAndDragShoppingHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        if (viewHolder instanceof HeaderListProductHolder || viewHolder instanceof ProductCheckedHeaderHolder || viewHolder instanceof ProductCheckedItemHolder) {
-            return 0;
-        }
+
         return makeMovementFlags(this.dragDirs, this.swipeDirs);
     }
 

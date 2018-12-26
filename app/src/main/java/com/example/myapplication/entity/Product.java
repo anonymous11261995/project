@@ -18,6 +18,14 @@ public class Product {
     private Grocery grocery;
 
     public Product() {
+        this.id = "";
+        this.name = "";
+        this.created = new Date();
+        this.quantity = 1;
+        this.order = 0;
+        this.isAutocomplete = true;
+        this.isPurchased = false;
+        this.grocery = new Grocery();
     }
 
     public String getId() {

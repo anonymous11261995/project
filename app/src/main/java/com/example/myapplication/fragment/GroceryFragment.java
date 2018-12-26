@@ -133,7 +133,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
         ArrayList<Grocery> data = mGroceryService.getAllShoppingList();
         mRecyclerView.setHasFixedSize(true);
         //mRecyclerView.setItemViewCacheSize(AppConfig.ITEM_CACHE_LIST);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new GroceryAdapter(getActivity(), getContext(), data);
         mRecyclerView.setAdapter(mAdapter);

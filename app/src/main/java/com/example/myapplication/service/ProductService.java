@@ -1,7 +1,9 @@
 package com.example.myapplication.service;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TextView;
 
 
 import com.example.myapplication.AppConfig;
@@ -37,4 +39,19 @@ public class ProductService extends GenericService {
 
     }
 
+    public Product addProductToGrocery(String text, Grocery grocery) {
+        if(TextUtils.isEmpty(text)){
+            return null;
+        }
+        Product product = new Product();
+        product.setId(createCodeId(text));
+        product.setName(text);
+        product.setGrocery(grocery);
+        mProductDao.create(product);
+        return product;
+    }
+
+    public ArrayList<Product> getDataGrocery(Grocery grocery) {
+        return mProductDao.findByGrocery(grocery);
+    }
 }

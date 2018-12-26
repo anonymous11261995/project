@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.example.myapplication.AppConfig;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.AutocompleteAdapter;
+import com.example.myapplication.adapter.GroceryAdapter;
 import com.example.myapplication.adapter.ProductsAdapter;
 import com.example.myapplication.dialog.CustomDialog;
 import com.example.myapplication.entity.Grocery;
@@ -147,6 +148,18 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
 
 
     private void initRecyclerView() {
+        ArrayList<Product> data = mProductService.getDataGrocery(mGrocery);
+        for(Product product: data){
+            Log.d(TAG,"name: " + product.getName() +", quantity: " + product.getQuantity() +
+                    ", grocery: " + product.getGrocery().getId());
+        }
+        mAdapter = new ProductsAdapter(getActivity(),getContext(),data);
+
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
 
 
     }
@@ -251,12 +264,20 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void addProductToList(String text) {
-        //TODO
         mAutoCompleteTextView.setText("");
-        //Product product = mShoppingListService.addProductToShopping(text, mGrocery);
+        Product product = mProductService.addProductToGrocery(text, mGrocery);
+        if(product != null){
+            mAdapter.customNotifyItemInserted(0,product);
+        }
     }
 
     public void buildAgainList() {
+        ArrayList<Product> data = mProductService.getDataGrocery(mGrocery);
+        for(Product product: data){
+            Log.d(TAG,"name: " + product.getName() +", quantity: " + product.getQuantity() +
+                    ", grocery: " + product.getGrocery().getId());
+        }
+
 //        ArrayList<Product> data = mShoppingListService.productShoppingSrceen(mGrocery);
 //        if (data.size() == 0) {
 //            mTextEmpty.setVisibility(View.VISIBLE);

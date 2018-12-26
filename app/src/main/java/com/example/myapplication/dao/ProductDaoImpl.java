@@ -92,10 +92,29 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao {
     @Override
     public ArrayList<Product> findByAutocomplete() {
 
-        final String selection = "autocomplete = 1";
+        String selection = "autocomplete = 1";
         ArrayList<Product> list = new ArrayList<>();
         cursor = super.query(PRODUCT_TABLE, PRODUCT_COLUMNS, selection,
                 null, "created");
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                Product product = cursorToEntity(cursor);
+                list.add(product);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return list;
+    }
+
+    @Override
+    public ArrayList<Product> findByGrocery(Grocery grocery) {
+        String selection = "grocery = '" + grocery.getId() + "'";
+        ArrayList<Product> list = new ArrayList<>();
+        cursor = super.query(PRODUCT_TABLE, PRODUCT_COLUMNS, selection,
+                null, "order_list,created");
+       // Log.d(TAG,)
         if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {

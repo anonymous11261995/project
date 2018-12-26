@@ -2,6 +2,7 @@ package com.example.myapplication.dao;
 
 
 
+import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public interface ProductDao {
     ArrayList<Product> findByQuery(String query);
 
     ArrayList<Product> findByAutocomplete();
+
+    ArrayList<Product> findByGrocery(Grocery grocery);
 
 
 }
