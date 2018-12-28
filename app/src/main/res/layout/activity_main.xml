@@ -14,16 +14,5 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/layout_nav_header_main"
-        app:menu="@menu/main_drawer" />
-
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.v4.widget.DrawerLayout>

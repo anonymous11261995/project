@@ -22,12 +22,9 @@ import com.example.myapplication.helper.PrefManager;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity{
     private static final String TAG = MainActivity.class.getSimpleName();
     private static DatabaseHelper mDb;
-    public static NavigationView mNavigationView;
-    public static DrawerLayout mDrawerLayout;
     private PrefManager prefManager;
 
     @Override
@@ -38,7 +35,6 @@ public class MainActivity extends AppCompatActivity
         mDb = new DatabaseHelper(this);
         initDatabase();
         initViews();
-        setOnListener();
         displayFragment();
     }
 
@@ -88,13 +84,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initViews() {
-        mNavigationView = findViewById(R.id.nav_view);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
+
     }
 
-    private void setOnListener() {
-        mNavigationView.setNavigationItemSelectedListener(this);
-    }
 
     @Override
     public void onBackPressed() {
@@ -106,17 +98,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int id = menuItem.getItemId();
-        Intent intent;
-        switch (id) {
-        }
-        return true;
-
-    }
 
 
     private void activeFragment(Fragment fragment) {

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
@@ -35,7 +35,6 @@ import com.example.myapplication.service.GroceryService;
 
 import java.util.ArrayList;
 
-import static com.example.myapplication.activity.MainActivity.mDrawerLayout;
 
 public class GroceryFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = GroceryFragment.class.getSimpleName();
@@ -45,6 +44,11 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     GroceryAdapter mAdapter;
     GroceryService mGroceryService;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -67,22 +71,6 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onClick(View v) {
@@ -111,13 +99,6 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initViews() {
-        Toolbar toolbar = getView().findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                getActivity(), mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
         mButtonAddNewList = getView().findViewById(R.id.btn_add_new_list);
         mRecyclerView = getView().findViewById(R.id.recycler_view);
 
