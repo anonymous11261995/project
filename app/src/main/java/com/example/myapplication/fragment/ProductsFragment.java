@@ -1,7 +1,6 @@
 package com.example.myapplication.fragment;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -10,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,16 +25,13 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.example.myapplication.AppConfig;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.AutocompleteAdapter;
-import com.example.myapplication.adapter.GroceryAdapter;
 import com.example.myapplication.adapter.ProductsAdapter;
 import com.example.myapplication.dialog.CustomDialog;
 import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
 import com.example.myapplication.helper.PrefManager;
-import com.example.myapplication.helper.SwipeAndDragShoppingHelper;
 import com.example.myapplication.service.GroceryService;
 import com.example.myapplication.service.ProductService;
 
@@ -79,7 +74,7 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
         mGroceryService = new GroceryService(getContext());
         mProductService = new ProductService(getContext());
         mGrocery = mGroceryService.getListActive();
-        // Crashlytics.log(Log.DEBUG, TAG, "onActivityCreated fragment");
+        Log.d(TAG,"dkjk");
         initViews();
         initAutoCompleteTextView();
         setOnListener();

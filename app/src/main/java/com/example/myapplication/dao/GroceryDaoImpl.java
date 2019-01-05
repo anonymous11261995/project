@@ -112,7 +112,7 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 grocery = cursorToEntity(cursor);
-                cursor.moveToNext();
+
             }
             cursor.close();
         }

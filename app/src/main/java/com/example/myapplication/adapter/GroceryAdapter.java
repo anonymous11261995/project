@@ -6,10 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
@@ -43,10 +46,31 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int position) {
         ItemHolder holder = (ItemHolder) viewHolder;
-        Grocery object = mListItems.get(i);
+        Grocery object = mListItems.get(position);
         holder.itemName.setText(object.getName());
+
+//        holder.imageMenu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (position != RecyclerView.NO_POSITION && listener != null) {
+//                    listener.onItemMenuClick(mListItems.get(position), position);
+//                }
+//            }
+//        });
+
+        holder.layoutItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    listener.onItemClick(mListItems.get(position), position);
+                }
+
+            }
+        });
+
+
     }
 
     @Override
@@ -93,37 +117,18 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
-    class ItemHolder extends RecyclerView.ViewHolder {
-        private TextView itemName;
-        private TextView itemStatus;
-        private ConstraintLayout layoutItem;
+    private class ItemHolder extends RecyclerView.ViewHolder {
+        private TextView itemName, itemStatus;
+        private ImageView imageMenu;
+        private LinearLayout layoutItem;
+
 
         private ItemHolder(View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.text_name);
             itemStatus = itemView.findViewById(R.id.text_status);
             layoutItem = itemView.findViewById(R.id.layout_item);
-            layoutItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemClick(mListItems.get(position), position);
-                    }
-
-                }
-            });
-
-            layoutItem.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemLongClick(mListItems.get(position), position);
-                    }
-                    return true;
-                }
-            });
+            imageMenu = itemView.findViewById(R.id.image_menu);
 
         }
 
@@ -131,7 +136,8 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public interface OnItemClickListener {
         void onItemClick(Grocery object, int position);
-        void onItemLongClick(Grocery object, int position);
+
+        //void onItemMenuClick(Grocery grocery, int position);
     }
 
     public void setOnClickListener(OnItemClickListener listener) {

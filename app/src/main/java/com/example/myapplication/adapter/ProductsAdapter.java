@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,7 @@ import android.widget.TextView;
 
 
 import com.example.myapplication.R;
-import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
-import com.example.myapplication.helper.SwipeAndDragShoppingHelper;
-import com.example.myapplication.service.GroceryService;
 import com.example.myapplication.service.ProductService;
 
 import java.util.ArrayList;
@@ -27,7 +23,7 @@ import java.util.ArrayList;
  */
 
 @SuppressWarnings("CanBeFinal")
-public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SwipeAndDragShoppingHelper.ActionCompletionContract {
+public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = ProductsAdapter.class.getSimpleName();
     private Context mContext;
     private FragmentActivity mActivity;
@@ -75,15 +71,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mListItems.size();
     }
 
-    @Override
-    public void onViewMoved(int oldPosition, int newPosition) {
 
-    }
-
-    @Override
-    public void onViewSwiped(int position, int direction) {
-
-    }
 
     public void customNotifyItemInserted(int postion, Product product) {
         mListItems.add(0, product);

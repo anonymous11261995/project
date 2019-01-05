@@ -12,31 +12,19 @@
         android:layout_height="@dimen/list_item_height"
         android:background="@drawable/custom_ripple">
 
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:scaleX="1.1"
-            android:scaleY="1.1"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="@dimen/list_item_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/text_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/list_item_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:ellipsize="end"
             android:gravity="center|start"
             android:singleLine="true"
             android:text="Thịt lợn"
-            android:textColor="@color/color_text"
-            android:textSize="@dimen/list_item_text_size"
+            android:textSize="@dimen/abc_text_size_medium"
             app:layout_constraintEnd_toStartOf="@id/text_quantity"
-            app:layout_constraintStart_toEndOf="@id/checkbox" />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <TextView
@@ -55,7 +43,7 @@
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_vertical_margin"
-        android:background="@color/divider_item_horizontal"
+        android:background="@color/divider_horizontal"
         app:layout_constraintTop_toBottomOf="@id/layout_item" />
 
 </LinearLayout>

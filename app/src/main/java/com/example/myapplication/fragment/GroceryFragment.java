@@ -71,7 +71,6 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -121,45 +120,47 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
         mAdapter.setOnClickListener(new GroceryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Grocery object, int position) {
+                Log.d(TAG,"AA");
                 mGroceryService.activeList(object);
+                Log.d(TAG,"BBB");
                 activeFragment(new ProductsFragment());
+                Log.d(TAG,"CCC");
             }
 
-            @Override
-            public void onItemLongClick(final Grocery object, int position) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(object.getName())
-                        .setItems(R.array.list_function, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        break;
-                                    case 1:
-                                        Log.d(TAG, "case 1");
-                                        break;
-                                    case 2:
-                                        break;
-                                    case 3:
-                                        DialogRename dialogRename = new DialogRename(getContext());
-                                        dialogRename.show(object.getName());
-                                        dialogRename.setListener(new DialogRename.OnClickListener() {
-                                            @Override
-                                            public void onClickPositiveButton(DialogInterface dialog, String name) {
+//            @Override
+//            public void onItemMenuClick(final Grocery grocery, int position) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                builder.setItems(R.array.list_function, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        switch (which) {
+//                            case 0:
+//                                break;
+//                            case 1:
+//                                Log.d(TAG, "case 1");
+//                                break;
+//                            case 2:
+//                                break;
+//                            case 3:
+//                                DialogRename dialogRename = new DialogRename(getContext());
+//                                dialogRename.show(grocery.getName());
+//                                dialogRename.setListener(new DialogRename.OnClickListener() {
+//                                    @Override
+//                                    public void onClickPositiveButton(DialogInterface dialog, String name) {
+//
+//                                    }
+//                                });
+//                                break;
+//                            case 4:
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//                    }
+//                });
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+//            }
 
-                                            }
-                                        });
-                                        break;
-                                    case 4:
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-            }
         });
 
         SwipeDeleteHelper swipeAndDragHelper = new SwipeDeleteHelper(mAdapter, getContext());
