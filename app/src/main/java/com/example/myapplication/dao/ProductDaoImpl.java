@@ -21,7 +21,7 @@ import java.util.Date;
 public class ProductDaoImpl extends DBContentProvider implements ProductDao {
     private final String TAG = ProductDao.class.getName();
     private final String[] PRODUCT_COLUMNS = new String[]{"id", "grocery", "name", "created",
-            "quantity", "order_list", "autocomplete", "purchased"};
+            "quantity", "unit", "note", "order_list", "autocomplete", "purchased"};
     private final String PRODUCT_TABLE = "product";
     private Cursor cursor;
     private ContentValues initialValues;
@@ -114,7 +114,7 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao {
         ArrayList<Product> list = new ArrayList<>();
         cursor = super.query(PRODUCT_TABLE, PRODUCT_COLUMNS, selection,
                 null, "order_list,created");
-       // Log.d(TAG,)
+        // Log.d(TAG,)
         if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -173,7 +173,7 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao {
     @Override
     protected Product cursorToEntity(Cursor cursor) {
         Product product = new Product();
-        int idIndex, nameIndex, createIndex, quanityIndex, autocompleteIndex,
+        int idIndex, nameIndex, createIndex, quanityIndex, unitIndex, noteIndex, autocompleteIndex,
                 isPurchsedIndex, groceryIndex, orderIndex;
         if (cursor != null) {
             idIndex = cursor.getColumnIndexOrThrow("id");
@@ -187,7 +187,13 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao {
             product.setCreated(new Date(cursor.getLong(createIndex)));
 
             quanityIndex = cursor.getColumnIndexOrThrow("quantity");
-            product.setQuantity(cursor.getInt(quanityIndex));
+            product.setQuantity(cursor.getDouble(quanityIndex));
+
+            unitIndex = cursor.getColumnIndexOrThrow("unit");
+            product.setUnit(cursor.getString(unitIndex));
+
+            noteIndex = cursor.getColumnIndexOrThrow("note");
+            product.setNote(cursor.getString(noteIndex));
 
             autocompleteIndex = cursor.getColumnIndexOrThrow("autocomplete");
             if (cursor.getInt(autocompleteIndex) == 0) {
@@ -195,7 +201,6 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao {
             } else {
                 product.setAutocomplete(true);
             }
-
 
             isPurchsedIndex = cursor.getColumnIndexOrThrow("purchased");
             if (cursor.getInt(isPurchsedIndex) == 0) {
@@ -227,6 +232,8 @@ public class ProductDaoImpl extends DBContentProvider implements ProductDao {
             initialValues.put("name", product.getName());
             initialValues.put("created", product.getCreated().getTime());
             initialValues.put("quantity", product.getQuantity());
+            initialValues.put("unit", product.getUnit());
+            initialValues.put("note", product.getNote());
             initialValues.put("order_list", product.getOrder());
             initialValues.put("autocomplete", product.isAutocomplete());
             initialValues.put("purchased", product.isPurchased());

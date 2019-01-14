@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -42,7 +41,7 @@ public class AutocompleteAdapter extends ArrayAdapter<String> {
         View row = convertView;
         LayoutInflater inflater = LayoutInflater.from(getContext());
         if (row == null) {
-            row = inflater.inflate(R.layout.item_autocomplete, parent, false);
+            row = inflater.inflate(R.layout.adapter_item_autocomplete, parent, false);
         }
         try {
             final String text = suggestions.get(position);

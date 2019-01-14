@@ -40,7 +40,7 @@ public class ProductService extends GenericService {
     }
 
     public Product addProductToGrocery(String text, Grocery grocery) {
-        if(TextUtils.isEmpty(text)){
+        if (TextUtils.isEmpty(text)) {
             return null;
         }
         Product product = new Product();
@@ -52,6 +52,22 @@ public class ProductService extends GenericService {
     }
 
     public ArrayList<Product> getDataGrocery(Grocery grocery) {
-        return mProductDao.findByGrocery(grocery);
+        String queryUnchecked = "select * from product" +
+                " where grocery = '" + grocery.getId() + "' and purchased = 0" +
+                " order by order_list, created";
+        ArrayList<Product> productUnchecked = mProductDao.findByQuery(queryUnchecked);
+        String queryChecked = "select * from product" +
+                " where grocery = '" + grocery.getId() + "' and purchased = 1" +
+                " order by order_list, created";
+        ArrayList<Product> productChecked = mProductDao.findByQuery(queryChecked);
+
+        ArrayList<Product> data = new ArrayList<>();
+        data.addAll(productUnchecked);
+        data.addAll(productChecked);
+        return data;
+    }
+
+    public void update(Product object) {
+        mProductDao.update(object);
     }
 }

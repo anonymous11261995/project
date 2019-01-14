@@ -1,0 +1,65 @@
+<resources>
+  <dimen name="activity_horizontal_margin">
+    14.22dp
+  </dimen>
+  <dimen name="activity_vertical_margin">
+    14.22dp
+  </dimen>
+  <dimen name="abc_ic_plus_margin">
+    14.22dp
+  </dimen>
+  <dimen name="abc_text_size_micro">
+    10.67sp
+  </dimen>
+  <dimen name="abc_text_size_small">
+    12.44sp
+  </dimen>
+  <dimen name="abc_text_size_medium">
+    16.0sp
+  </dimen>
+  <dimen name="abc_text_size_20sp">
+    17.78sp
+  </dimen>
+  <dimen name="abc_text_size_large">
+    19.56sp
+  </dimen>
+  <dimen name="abc_dropdown_list_item_height">
+    28.44dp
+  </dimen>
+  <dimen name="toolbar_spinner_margin_top">
+    6.22dp
+  </dimen>
+  <dimen name="toolbar_item_padding">
+    6.22dp
+  </dimen>
+  <dimen name="toolbar_autocomplete_height">
+    35.56dp
+  </dimen>
+  <dimen name="toobar_margin_start">
+    5.33dp
+  </dimen>
+  <dimen name="detail_item_pading">
+    7.11dp
+  </dimen>
+  <dimen name="detail_item_margin">
+    14.22dp
+  </dimen>
+  <dimen name="list_item_height">
+    48.89dp
+  </dimen>
+  <dimen name="action_button_height">
+    28.44dp
+  </dimen>
+  <dimen name="action_button_text_size">
+    14.22sp
+  </dimen>
+  <dimen name="action_button_min_width">
+    49.78dp
+  </dimen>
+  <dimen name="action_button_padding_horizontal">
+    3.56dp
+  </dimen>
+  <dimen name="swipe_ic_margin">
+    26.67dp
+  </dimen>
+</resources>

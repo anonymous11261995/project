@@ -27,7 +27,8 @@
         android:layout_height="0dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:background="@color/backgroundMain"/>
 
 
 </android.support.constraint.ConstraintLayout>

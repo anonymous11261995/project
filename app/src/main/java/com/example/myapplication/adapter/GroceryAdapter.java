@@ -3,10 +3,8 @@ package com.example.myapplication.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +39,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view;
         view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_grocery, parent, false);
+                .inflate(R.layout.adapter_item_grocery, parent, false);
         return new ItemHolder(view);
     }
 
@@ -51,14 +49,14 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Grocery object = mListItems.get(position);
         holder.itemName.setText(object.getName());
 
-//        holder.imageMenu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (position != RecyclerView.NO_POSITION && listener != null) {
-//                    listener.onItemMenuClick(mListItems.get(position), position);
-//                }
-//            }
-//        });
+        holder.imageMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    listener.onItemMenuClick(mListItems.get(position), position);
+                }
+            }
+        });
 
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,15 +91,12 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mListItems.remove(position);
         notifyItemRemoved(position);
         mGroceryService.deleteList(recentlyDeletedItem);
-        //show Snackbar
         View view = mActivity.findViewById(R.id.layout_fragment);
         Snackbar snackbar = Snackbar.make(view, "1 item deleted",
                 Snackbar.LENGTH_LONG);
         snackbar.setAction("UNDO", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // undo is selected, restore the deleted item
                 undoDelete(recentlyDeletedItem, recentlyDeletedItemPosition);
             }
         });
@@ -136,8 +131,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public interface OnItemClickListener {
         void onItemClick(Grocery object, int position);
-
-        //void onItemMenuClick(Grocery grocery, int position);
+        void onItemMenuClick(Grocery grocery, int position);
     }
 
     public void setOnClickListener(OnItemClickListener listener) {

@@ -1,19 +1,30 @@
 package com.example.myapplication.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.myapplication.R;
+import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
+import com.example.myapplication.service.GroceryService;
 import com.example.myapplication.service.ProductService;
 
 import java.util.ArrayList;
@@ -27,14 +38,18 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final String TAG = ProductsAdapter.class.getSimpleName();
     private Context mContext;
     private FragmentActivity mActivity;
-    private ArrayList<Product> mListItems;
     private ProductService mProductService;
+    private Grocery mGrocery;
+    // private GroceryService mGroceryService;
+    private ArrayList<Product> mListItems;
 
-    public ProductsAdapter(FragmentActivity activity, Context context, ArrayList<Product> data) {
+    public ProductsAdapter(FragmentActivity activity, Context context, ArrayList<Product> data, Grocery grocery) {
         this.mActivity = activity;
         this.mContext = context;
         this.mListItems = data;
         mProductService = new ProductService(context);
+        mGrocery = grocery;
+        // mGroceryService = new GroceryService(context);
     }
 
     @NonNull
@@ -42,35 +57,118 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view;
         view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_product, viewGroup, false);
+                .inflate(R.layout.adapter_item_product, viewGroup, false);
         return new ItemHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int position) {
         ItemHolder holder = (ItemHolder) viewHolder;
-        Product object = mListItems.get(i);
+        final Product object = mListItems.get(position);
         holder.itemName.setText(object.getName());
-        if (object.getQuantity() > 1) {
-            holder.itemQuantity.setText(object.getQuantity());
-        } else {
+        if (object.getQuantity() == 0) {
             holder.itemQuantity.setVisibility(View.GONE);
-        }
-        //set listenner
-//        holder.layoutItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
 
+        } else {
+            holder.itemQuantity.setVisibility(View.VISIBLE);
+            holder.itemQuantity.setText(String.valueOf(object.getQuantity()));
+        }
+        if (TextUtils.isEmpty(object.getUnit())) {
+            holder.itemUnit.setVisibility(View.GONE);
+        } else {
+            holder.itemUnit.setVisibility(View.VISIBLE);
+            holder.itemUnit.setText(object.getUnit());
+        }
+        if (TextUtils.isEmpty(object.getNote())) {
+            holder.itemNote.setVisibility(View.GONE);
+        } else {
+            holder.itemNote.setVisibility(View.VISIBLE);
+            holder.itemNote.setText(object.getNote());
+        }
+        if (!object.isPurchased()) {
+            TypedArray array = mContext.getTheme().obtainStyledAttributes(new int[]{
+                    android.R.attr.windowBackground});
+            int backgroundColor = array.getColor(0, 0xFF00FF);
+            array.recycle();
+            holder.itemLayout.setBackgroundColor(backgroundColor);
+            holder.itemCheckbox.setChecked(false);
+        } else {
+            holder.itemCheckbox.setChecked(true);
+            holder.itemLayout.setBackgroundColor(mContext.getResources().getColor(R.color.backgroundMain));
+            holder.itemLine.setVisibility(View.GONE);
+        }
+        //    set listenner
+        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(mContext);
+                View view = inflater.inflate(R.layout.dialog_edit_product, null);
+                final EditText editName = view.findViewById(R.id.text_name);
+                final TextInputEditText inputQuantity = view.findViewById(R.id.quantityET);
+                final TextInputEditText inputUnit = view.findViewById(R.id.unitET);
+                final TextInputEditText inputNote = view.findViewById(R.id.noteET);
+                editName.setText(object.getName());
+                if (object.getQuantity() != 0) {
+                    inputQuantity.setText(String.valueOf(object.getQuantity()));
+                }
+                inputUnit.setText(object.getUnit());
+                inputNote.setText(object.getNote());
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setView(view);
+                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!editName.getText().toString().equals("")) {
+                            ProductService productService = new ProductService(mContext);
+                            object.setName(editName.getText().toString().trim());
+                            object.setQuantity(Double.valueOf(inputQuantity.getText().toString().trim()));
+                            object.setUnit(inputUnit.getText().toString().trim());
+                            object.setNote(inputNote.getText().toString().trim());
+                            productService.update(object);
+                            mListItems.set(position, object);
+                            notifyItemChanged(position, object);
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+            }
+        });
+        holder.itemCheckbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (object.isPurchased()) {
+                    object.setPurchased(false);
+                } else {
+                    object.setPurchased(true);
+                }
+                mProductService.update(object);
+                buildList();
+            }
+        });
+
+    }
+
+    public void buildList() {
+        ArrayList<Product> data = mProductService.getDataGrocery(mGrocery);
+        mListItems.clear();
+        mListItems.addAll(data);
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
         return mListItems.size();
     }
-
 
 
     public void customNotifyItemInserted(int postion, Product product) {
@@ -80,24 +178,21 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     class ItemHolder extends RecyclerView.ViewHolder {
-        private TextView itemName;
-        private TextView itemQuantity;
-        private ConstraintLayout layoutItem;
+        private TextView itemName, itemQuantity, itemUnit, itemNote;
+        private LinearLayout itemLayout;
         private CheckBox itemCheckbox;
+        private View itemLine;
+
 
         private ItemHolder(View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.text_name);
             itemQuantity = itemView.findViewById(R.id.text_quantity);
-            layoutItem = itemView.findViewById(R.id.layout_item);
+            itemUnit = itemView.findViewById(R.id.text_unit);
+            itemNote = itemView.findViewById(R.id.text_note);
+            itemLayout = itemView.findViewById(R.id.layout_item);
             itemCheckbox = itemView.findViewById(R.id.checkbox);
-
-            layoutItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
+            itemLine = itemView.findViewById(R.id.layout_line);
 
         }
 

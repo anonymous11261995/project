@@ -6,8 +6,42 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/colorTextPrimary</item>
-        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <style name="adapter_list_counter_style" parent="@android:style/TextAppearance.Holo.Large">
+        <item name="android:textSize">20.0sp</item>
+        <item name="android:textColor">?colorPrimary</item>
+    </style>
+
+    <style name="adapter_list_list_name_style" parent="@style/TextAppearance.AppCompat.Large">
+        <item name="android:textSize">@dimen/abc_text_size_20sp</item>
+        <item name="android:textColor">@color/material_listonic_color_text</item>
+    </style>
+
+    <style name="adapter_item_item_product_name" parent="@android:style/TextAppearance.Holo.Large">
+        <item name="android:textSize">@dimen/abc_text_size_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/material_listonic_color_text</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="adapter_item_item_quantity" parent="@android:style/TextAppearance.Holo.Large">
+        <item name="android:textSize">@dimen/abc_text_size_small</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/material_listonic_color_text_light</item>
+    </style>
+
+    <style name="adapter_item_item_description" parent="@android:style/TextAppearance.Holo.Large">
+        <item name="android:textSize">12.0sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/material_listonic_color_text_light</item>
+    </style>
+    <style name="ItemEditFloatingEditTextStyle" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:textColor">#ff808080</item>
     </style>
 
 </resources>

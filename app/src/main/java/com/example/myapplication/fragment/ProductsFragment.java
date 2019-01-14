@@ -74,7 +74,6 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
         mGroceryService = new GroceryService(getContext());
         mProductService = new ProductService(getContext());
         mGrocery = mGroceryService.getListActive();
-        Log.d(TAG,"dkjk");
         initViews();
         initAutoCompleteTextView();
         setOnListener();
@@ -148,7 +147,7 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
             Log.d(TAG,"name: " + product.getName() +", quantity: " + product.getQuantity() +
                     ", grocery: " + product.getGrocery().getId());
         }
-        mAdapter = new ProductsAdapter(getActivity(),getContext(),data);
+        mAdapter = new ProductsAdapter(getActivity(),getContext(),data, mGrocery);
 
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

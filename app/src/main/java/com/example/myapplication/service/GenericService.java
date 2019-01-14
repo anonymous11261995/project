@@ -21,12 +21,10 @@ import java.util.regex.Pattern;
 public class GenericService {
     ProductDao mProductDao;
     GroceryDao mGroceryDao;
-    Context mContext;
 
     public GenericService(Context context) {
         this.mProductDao = DatabaseHelper.mProductDao;
         this.mGroceryDao = DatabaseHelper.mGroceryDao;
-        this.mContext = context;
     }
 
 

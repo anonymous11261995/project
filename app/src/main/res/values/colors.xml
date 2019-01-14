@@ -3,26 +3,21 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorTextPrimary">#4e4e4e</color>
-    
-    <color name="background_product_purchased">#FFFFFF</color>
-    <color name="background_product_not_purchased">#FFFFE8</color>
 
     <color name="colorWhite">#ffffff</color>
     <color name="colorBlack">#000</color>
     <color name="colorGreen">#1ad21d</color>
     <color name="colorRed">#d0011b</color>
     <color name="colorBlue">#2347e9</color>
-    <color name="color_light_gray">#9b9b9b</color>
+    <color name="colorGray">#9b9b9b</color>
     <!-- app -->
-    <color name="background_bottom_shopping_list">#555652</color>
-    <color name="color_text_no_active">#a1a1a0</color>
     <color name="textColorHint">#b9b9b9</color>
-
     <color name="colorSwipeDeleted">#f44f2a</color>
-
     <color name="divider_horizontal">#dcdcdc</color>
-
     <color name="colorControlHighlight">#9f9f9f</color>
     <color name="btn_negative">#b9b9b9</color>
+
+    <color name="material_listonic_color_text">#ff333333</color>
+    <color name="material_listonic_color_text_light">#ff919191</color>
+    <color name="backgroundMain">#bdbdbd</color>
 </resources>

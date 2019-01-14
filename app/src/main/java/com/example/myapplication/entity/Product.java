@@ -11,8 +11,10 @@ public class Product {
     private String id;
     private String name;
     private Date created;
-    private int quantity;
+    private double quantity;
     private int order;
+    private String unit;
+    private String note;
     private boolean isAutocomplete;
     private boolean isPurchased;
     private Grocery grocery;
@@ -21,7 +23,9 @@ public class Product {
         this.id = "";
         this.name = "";
         this.created = new Date();
-        this.quantity = 1;
+        this.quantity = 0;
+        this.unit = "";
+        this.note = "";
         this.order = 0;
         this.isAutocomplete = true;
         this.isPurchased = false;
@@ -52,12 +56,28 @@ public class Product {
         this.created = created;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public int getOrder() {
