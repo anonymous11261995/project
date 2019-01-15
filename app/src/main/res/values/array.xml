@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="list_function">
-        <item>View list</item>
-        <item>View list notes</item>
-        <item>Send list</item>
-        <item>Rename list</item>
-        <item>Delete list</item>
+        <item>View</item>
+        <item>Rename</item>
+        <item>Delete</item>
+        <item>Share</item>
     </string-array>
 </resources>

@@ -143,17 +143,16 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
 
     private void initRecyclerView() {
         ArrayList<Product> data = mProductService.getDataGrocery(mGrocery);
-        for(Product product: data){
-            Log.d(TAG,"name: " + product.getName() +", quantity: " + product.getQuantity() +
+        for (Product product : data) {
+            Log.d(TAG, "name: " + product.getName() + ", quantity: " + product.getQuantity() +
                     ", grocery: " + product.getGrocery().getId());
         }
-        mAdapter = new ProductsAdapter(getActivity(),getContext(),data, mGrocery);
+        mAdapter = new ProductsAdapter(getActivity(), getContext(), data, mGrocery);
 
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
 
 
     }
@@ -237,20 +236,15 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
-
-        CustomDialog customDialog = new CustomDialog(getContext());
         switch (menuItem.getItemId()) {
-            case R.id.action_move_copy_items:
-
-                return true;
-            case R.id.action_delete_all:
-                //TODO
-                return true;
-            case R.id.action_check_all:
-                //TODO
-                return true;
             case R.id.action_uncheck_all:
                 //TODO
+                ArrayList<Product> data = mAdapter.getData();
+                mProductService.clearProductBought(data);
+                ArrayList<Product> newData = mProductService.getDataGrocery(mGrocery);
+                mAdapter.customNotifyDataSet(newData);
+                return true;
+            case R.id.action_sort:
                 return true;
             default:
                 return true;
@@ -260,15 +254,15 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
     private void addProductToList(String text) {
         mAutoCompleteTextView.setText("");
         Product product = mProductService.addProductToGrocery(text, mGrocery);
-        if(product != null){
-            mAdapter.customNotifyItemInserted(0,product);
+        if (product != null) {
+            mAdapter.customNotifyItemInserted(0, product);
         }
     }
 
     public void buildAgainList() {
         ArrayList<Product> data = mProductService.getDataGrocery(mGrocery);
-        for(Product product: data){
-            Log.d(TAG,"name: " + product.getName() +", quantity: " + product.getQuantity() +
+        for (Product product : data) {
+            Log.d(TAG, "name: " + product.getName() + ", quantity: " + product.getQuantity() +
                     ", grocery: " + product.getGrocery().getId());
         }
 

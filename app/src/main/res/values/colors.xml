@@ -19,5 +19,5 @@
 
     <color name="material_listonic_color_text">#ff333333</color>
     <color name="material_listonic_color_text_light">#ff919191</color>
-    <color name="backgroundMain">#bdbdbd</color>
+    <color name="backgroundList">#d1d1d1</color>
 </resources>

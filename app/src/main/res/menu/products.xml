@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".screen.activity.MainActivity">
-    <item
-        android:id="@+id/action_delete_all"
-        android:orderInCategory="2"
-        android:title="@string/action_delete_all"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_check_all"
-        android:orderInCategory="3"
-        android:title="@string/action_check_all"
-        app:showAsAction="never" />
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/action_uncheck_all"
-        android:orderInCategory="4"
         android:title="@string/action_uncheck_all"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_move_copy_items"
-        android:orderInCategory="5"
-        android:title="@string/action_move_copy"
+        android:id="@+id/action_sort"
+        android:title="@string/action_sorting"
         app:showAsAction="never" />
-
 
 </menu>

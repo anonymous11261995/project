@@ -101,7 +101,8 @@
     <string name="action_create_list">Create list</string>
     <string name="action_delete_all">Delete all</string>
     <string name="action_check_all">Check all</string>
-    <string name="action_uncheck_all">Uncheck all</string>
+    <string name="action_uncheck_all">Delete purchased items</string>
+    <string name="action_sorting">Sorting</string>
     <string name="action_delete_list">Delete list</string>
     <string name="action_category_manage">Manage categories</string>
     <string name="action_delete">Delete</string>

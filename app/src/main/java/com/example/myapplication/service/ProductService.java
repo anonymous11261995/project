@@ -70,4 +70,13 @@ public class ProductService extends GenericService {
     public void update(Product object) {
         mProductDao.update(object);
     }
+
+    public void clearProductBought(ArrayList<Product> data) {
+        for (Product product : data) {
+            if (product.isPurchased()) {
+                product.setPurchased(false);
+                mProductDao.update(product);
+            }
+        }
+    }
 }

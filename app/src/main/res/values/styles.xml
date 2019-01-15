@@ -29,6 +29,14 @@
         <item name="android:textColor">@color/material_listonic_color_text</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
+
+    <style name="adapter_item_item_bought_product_name" parent="@android:style/TextAppearance.Holo.Large">
+        <item name="android:textSize">@dimen/abc_text_size_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/material_listonic_color_text_light</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
     <style name="adapter_item_item_quantity" parent="@android:style/TextAppearance.Holo.Large">
         <item name="android:textSize">@dimen/abc_text_size_small</item>
         <item name="android:textStyle">normal</item>

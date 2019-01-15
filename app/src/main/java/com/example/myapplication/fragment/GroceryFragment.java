@@ -120,11 +120,8 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
         mAdapter.setOnClickListener(new GroceryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Grocery object, int position) {
-                Log.d(TAG, "AA");
                 mGroceryService.activeList(object);
-                Log.d(TAG, "BBB");
                 activeFragment(new ProductsFragment());
-                Log.d(TAG, "CCC");
             }
 
             @Override
@@ -134,13 +131,12 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
+                                Log.d(TAG,"View list");
+                                mGroceryService.activeList(grocery);
+                                activeFragment(new ProductsFragment());
                                 break;
                             case 1:
-                                Log.d(TAG, "case 1");
-                                break;
-                            case 2:
-                                break;
-                            case 3:
+                                Log.d(TAG,"Rename list");
                                 DialogRename dialogRename = new DialogRename(getContext());
                                 dialogRename.show(grocery.getName());
                                 dialogRename.setListener(new DialogRename.OnClickListener() {
@@ -150,7 +146,10 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                                     }
                                 });
                                 break;
-                            case 4:
+                            case 2:
+                                Log.d(TAG,"Delete list");
+                                break;
+                            case 3:
                                 break;
                             default:
                                 break;
