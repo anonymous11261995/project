@@ -84,20 +84,27 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
+
+
     @Override
     public void onViewSwiped(int position) {
-        final Grocery recentlyDeletedItem = mListItems.get(position);
-        final int recentlyDeletedItemPosition = position;
-        mListItems.remove(position);
-        notifyItemRemoved(position);
-        mGroceryService.deleteList(recentlyDeletedItem);
+        Grocery grocery = mListItems.get(position);
+        deleteItem(grocery);
+
+    }
+
+    public void deleteItem(final Grocery grocery) {
+        final int index = mListItems.indexOf(grocery);
+        mListItems.remove(index);
+        notifyItemRemoved(index);
+        mGroceryService.delete(grocery);
         View view = mActivity.findViewById(R.id.layout_fragment);
         Snackbar snackbar = Snackbar.make(view, "1 item deleted",
                 Snackbar.LENGTH_LONG);
         snackbar.setAction("UNDO", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                undoDelete(recentlyDeletedItem, recentlyDeletedItemPosition);
+                undoDelete(grocery, index);
             }
         });
         snackbar.setActionTextColor(Color.YELLOW);
@@ -108,7 +115,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void undoDelete(Grocery grocery, int position) {
         mListItems.add(position, grocery);
         notifyItemInserted(position);
-        mGroceryService.restoreList(grocery);
+        mGroceryService.create(grocery);
     }
 
 
@@ -131,6 +138,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public interface OnItemClickListener {
         void onItemClick(Grocery object, int position);
+
         void onItemMenuClick(Grocery grocery, int position);
     }
 

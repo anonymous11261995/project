@@ -28,25 +28,32 @@ public class GroceryService extends GenericService {
         this.mContext = context;
     }
 
-    public void deleteList(Grocery grocery) {
+    public void delete(Grocery grocery) {
         mGroceryDao.delete(grocery);
 
     }
 
-    public void restoreList(Grocery grocery) {
+    public void update(Grocery grocery) {
+        mGroceryDao.update(grocery);
+    }
+
+    public void create(Grocery grocery) {
         mGroceryDao.create(grocery);
     }
 
-    public Grocery createList(String name) {
+    public Grocery createNewList(String name) {
         Grocery grocery = new Grocery();
         grocery.setActive(true);
         grocery.setId(createCodeId(name));
         grocery.setName(name);
         grocery.setColor(ColorUtils.randomColor(mContext));
         grocery.setCreated(new Date());
+        grocery.setSortByValue(0);
         mGroceryDao.create(grocery);
         return grocery;
     }
+
+
 
     public ArrayList<Grocery> getAllShoppingList() {
         ArrayList<Grocery> result = new ArrayList<>();
@@ -83,7 +90,7 @@ public class GroceryService extends GenericService {
         mGroceryDao.update(grocery);
     }
 
-    public Grocery getListActive(){
+    public Grocery getListActive() {
         return mGroceryDao.getListActive();
     }
 

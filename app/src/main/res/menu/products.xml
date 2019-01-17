@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_uncheck_all"
+        android:id="@+id/action_clear_item_bought"
         android:title="@string/action_uncheck_all"
         app:showAsAction="never" />
 

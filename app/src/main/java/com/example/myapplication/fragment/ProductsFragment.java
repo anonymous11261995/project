@@ -1,6 +1,8 @@
 package com.example.myapplication.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -10,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -237,15 +240,38 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.action_uncheck_all:
-                //TODO
+            case R.id.action_clear_item_bought:
                 ArrayList<Product> data = mAdapter.getData();
                 mProductService.clearProductBought(data);
                 ArrayList<Product> newData = mProductService.getDataGrocery(mGrocery);
                 mAdapter.customNotifyDataSet(newData);
                 return true;
             case R.id.action_sort:
-                return true;
+                String[] items = new String[2];
+                items[0] = "Alphabetically";
+                items[1] = "Custom";
+                String title = getString(R.string.action_sorting);
+                if (mGrocery.getSortByValue() == 0) {
+                    title = title + " (Custom)";
+                } else {
+                    title = title + " (Alphabetically)";
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(title);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            mGrocery.setSortByValue(0);
+                        } else {
+                            mGrocery.setSortByValue(1);
+                        }
+                        mGroceryService.update(mGrocery);
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
             default:
                 return true;
         }

@@ -2,8 +2,10 @@ package com.example.myapplication.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -82,7 +84,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClickPositiveButton(DialogInterface dialog, String text) {
                         if (mGroceryService.checkBeforeUpdateList(text)) {
-                            mGroceryService.createList(text);
+                            mGroceryService.createNewList(text);
                             mAdapter.customNotifyItemInserted();
                         } else {
                             hideSoftKeyBoard();
@@ -131,23 +133,26 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                Log.d(TAG,"View list");
+                                Log.d(TAG, "View list");
                                 mGroceryService.activeList(grocery);
                                 activeFragment(new ProductsFragment());
                                 break;
                             case 1:
-                                Log.d(TAG,"Rename list");
+                                Log.d(TAG, "Rename list");
                                 DialogRename dialogRename = new DialogRename(getContext());
                                 dialogRename.show(grocery.getName());
                                 dialogRename.setListener(new DialogRename.OnClickListener() {
                                     @Override
                                     public void onClickPositiveButton(DialogInterface dialog, String name) {
-
+                                        grocery.setName(name);
+                                        mGroceryService.update(grocery);
+                                        //TODO
                                     }
                                 });
                                 break;
                             case 2:
-                                Log.d(TAG,"Delete list");
+                                Log.d(TAG, "Delete list");
+                                mAdapter.deleteItem(grocery);
                                 break;
                             case 3:
                                 break;

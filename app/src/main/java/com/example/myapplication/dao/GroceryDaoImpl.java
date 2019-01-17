@@ -17,7 +17,8 @@ import java.util.Date;
  */
 
 public class GroceryDaoImpl extends DBContentProvider implements GroceryDao {
-    private final String[] GROCERY_LIST_COLUMNS = new String[]{"id", "name", "active", "created", "color", "note"};
+    private final String[] GROCERY_LIST_COLUMNS = new String[]{"id", "name", "active", "created",
+            "color", "note","sort_by"};
     private final String GROCERY_TABLE = "grocery";
     private Cursor cursor;
     private ContentValues initialValues;
@@ -25,6 +26,70 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao {
     public GroceryDaoImpl(SQLiteDatabase db) {
         super(db);
     }
+
+    @Override
+    protected Grocery cursorToEntity(Cursor cursor) {
+        Grocery grocery = new Grocery();
+        int idIndex, nameIndex, isActiveIndex, colorIndex, createdIndex, noteIndex, sortByIndex;
+
+        if (cursor != null) {
+            if (cursor.getColumnIndex("id") != -1) {
+                idIndex = cursor.getColumnIndexOrThrow("id");
+                grocery.setId(cursor.getString(idIndex));
+            }
+            if (cursor.getColumnIndex("name") != -1) {
+                nameIndex = cursor.getColumnIndexOrThrow(
+                        "name");
+                grocery.setName(cursor.getString(nameIndex));
+            }
+
+            if (cursor.getColumnIndex("active") != -1) {
+                isActiveIndex = cursor.getColumnIndexOrThrow("active");
+                if (cursor.getInt(isActiveIndex) == 0) {
+                    grocery.setActive(false);
+                } else {
+                    grocery.setActive(true);
+                }
+            }
+            if (cursor.getColumnIndex("color") != -1) {
+                colorIndex = cursor.getColumnIndexOrThrow("color");
+                grocery.setColor(cursor.getInt(colorIndex));
+            }
+            if (cursor.getColumnIndex("created") != -1) {
+                createdIndex = cursor.getColumnIndexOrThrow("created");
+                grocery.setCreated(new Date(cursor.getLong(createdIndex)));
+            }
+
+            if (cursor.getColumnIndex("note") != -1) {
+                noteIndex = cursor.getColumnIndexOrThrow("created");
+                grocery.setNote(cursor.getString(noteIndex));
+            }
+
+            if (cursor.getColumnIndex("sort_by") != -1) {
+                sortByIndex = cursor.getColumnIndexOrThrow("sort_by");
+                grocery.setSortByValue(cursor.getInt(sortByIndex));
+            }
+        }
+
+        return grocery;
+    }
+
+    private void setContentValue(Grocery grocery) {
+        initialValues = new ContentValues();
+        initialValues.put("id", grocery.getId());
+        initialValues.put("name", grocery.getName());
+        initialValues.put("active", grocery.isActive());
+        initialValues.put("color", grocery.getColor());
+        initialValues.put("created", grocery.getCreated().getTime());
+        initialValues.put("note", grocery.getNote());
+        initialValues.put("sort_by", grocery.getSortByValue());
+    }
+
+    private ContentValues getContentValue() {
+        return initialValues;
+    }
+
+
 
 
     @Override
@@ -120,60 +185,7 @@ public class GroceryDaoImpl extends DBContentProvider implements GroceryDao {
         return grocery;
     }
 
-    @Override
-    protected Grocery cursorToEntity(Cursor cursor) {
-        Grocery grocery = new Grocery();
-        int idIndex, nameIndex, isActiveIndex, colorIndex, createdIndex, noteIndex;
-
-        if (cursor != null) {
-            if (cursor.getColumnIndex("id") != -1) {
-                idIndex = cursor.getColumnIndexOrThrow("id");
-                grocery.setId(cursor.getString(idIndex));
-            }
-            if (cursor.getColumnIndex("name") != -1) {
-                nameIndex = cursor.getColumnIndexOrThrow(
-                        "name");
-                grocery.setName(cursor.getString(nameIndex));
-            }
-
-            if (cursor.getColumnIndex("active") != -1) {
-                isActiveIndex = cursor.getColumnIndexOrThrow("active");
-                if (cursor.getInt(isActiveIndex) == 0) {
-                    grocery.setActive(false);
-                } else {
-                    grocery.setActive(true);
-                }
-            }
-            if (cursor.getColumnIndex("color") != -1) {
-                colorIndex = cursor.getColumnIndexOrThrow("color");
-                grocery.setColor(cursor.getInt(colorIndex));
-            }
-            if (cursor.getColumnIndex("created") != -1) {
-                createdIndex = cursor.getColumnIndexOrThrow("created");
-                grocery.setCreated(new Date(cursor.getLong(createdIndex)));
-            }
-
-            if (cursor.getColumnIndex("note") != -1) {
-                noteIndex = cursor.getColumnIndexOrThrow("created");
-                grocery.setNote(cursor.getString(noteIndex));
-            }
-        }
-
-        return grocery;
-    }
 
 
-    private void setContentValue(Grocery grocery) {
-        initialValues = new ContentValues();
-        initialValues.put("id", grocery.getId());
-        initialValues.put("name", grocery.getName());
-        initialValues.put("active", grocery.isActive());
-        initialValues.put("color", grocery.getColor());
-        initialValues.put("created", grocery.getCreated().getTime());
-        initialValues.put("note", grocery.getNote());
-    }
 
-    private ContentValues getContentValue() {
-        return initialValues;
-    }
 }

@@ -74,7 +74,7 @@ public class ProductService extends GenericService {
     public void clearProductBought(ArrayList<Product> data) {
         for (Product product : data) {
             if (product.isPurchased()) {
-                product.setPurchased(false);
+                product.setGrocery(new Grocery());
                 mProductDao.update(product);
             }
         }

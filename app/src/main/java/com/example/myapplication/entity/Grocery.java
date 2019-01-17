@@ -13,6 +13,7 @@ public class Grocery {
     private String note;
     private Date created;
     private int color;
+    private int sortByValue;
     private boolean isActive;
     private ArrayList<Product> products;
 
@@ -73,5 +74,13 @@ public class Grocery {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public int getSortByValue() {
+        return sortByValue;
+    }
+
+    public void setSortByValue(int sortByValue) {
+        this.sortByValue = sortByValue;
     }
 }
