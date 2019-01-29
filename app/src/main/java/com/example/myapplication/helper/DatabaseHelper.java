@@ -37,9 +37,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public synchronized void openDataBase() {
-//        String dbPath = mContext.getDatabasePath(DB_NAME).getPath();
-//        Log.d(TAG, "Database openning...");
-//        myDatabase = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
         myDatabase = getWritableDatabase();
         mProductDao = new ProductDaoImpl(myDatabase);
         mGroceryDao = new GroceryDaoImpl(myDatabase);

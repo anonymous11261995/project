@@ -10,6 +10,7 @@ import com.example.myapplication.AppConfig;
 import com.example.myapplication.R;
 import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
+import com.example.myapplication.utils.AppUtil;
 
 
 import java.util.ArrayList;
@@ -52,13 +53,24 @@ public class ProductService extends GenericService {
     }
 
     public ArrayList<Product> getDataGrocery(Grocery grocery) {
-        String queryUnchecked = "select * from product" +
-                " where grocery = '" + grocery.getId() + "' and purchased = 0" +
-                " order by order_list, created";
+        String queryUnchecked, queryChecked;
+        if (grocery.getSortByValue() == AppUtil.LIST_SORT_BY_CUSTOM) {
+            queryUnchecked = "select * from product" +
+                    " where grocery = '" + grocery.getId() + "' and purchased = 0" +
+                    " order by order_list, created";
+            queryChecked = "select * from product" +
+                    " where grocery = '" + grocery.getId() + "' and purchased = 1" +
+                    " order by order_list, created";
+        } else {
+            queryUnchecked = "select * from product" +
+                    " where grocery = '" + grocery.getId() + "' and purchased = 0" +
+                    " order by name";
+            queryChecked = "select * from product" +
+                    " where grocery = '" + grocery.getId() + "' and purchased = 1" +
+                    " order by name";
+        }
+
         ArrayList<Product> productUnchecked = mProductDao.findByQuery(queryUnchecked);
-        String queryChecked = "select * from product" +
-                " where grocery = '" + grocery.getId() + "' and purchased = 1" +
-                " order by order_list, created";
         ArrayList<Product> productChecked = mProductDao.findByQuery(queryChecked);
 
         ArrayList<Product> data = new ArrayList<>();

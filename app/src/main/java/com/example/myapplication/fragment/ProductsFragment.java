@@ -37,6 +37,7 @@ import com.example.myapplication.entity.Product;
 import com.example.myapplication.helper.PrefManager;
 import com.example.myapplication.service.GroceryService;
 import com.example.myapplication.service.ProductService;
+import com.example.myapplication.utils.AppUtil;
 
 import java.util.ArrayList;
 
@@ -172,7 +173,6 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
                 Log.d(TAG, "Input user: " + text);
                 if (!text.equals("")) {
                     addProductToList(text);
-                    buildAgainList();
                 }
 
             }
@@ -186,7 +186,6 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
                     Log.d(TAG, "Input user" + text);
                     if (!text.equals("")) {
                         addProductToList(text);
-                        buildAgainList();
                         hideSoftKeyBoard();
                     }
                     return true;
@@ -227,7 +226,6 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
             case R.id.image_input_add:
                 String text = mAutoCompleteTextView.getText().toString();
                 addProductToList(text);
-                buildAgainList();
                 break;
             default:
                 break;
@@ -243,15 +241,14 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
             case R.id.action_clear_item_bought:
                 ArrayList<Product> data = mAdapter.getData();
                 mProductService.clearProductBought(data);
-                ArrayList<Product> newData = mProductService.getDataGrocery(mGrocery);
-                mAdapter.customNotifyDataSet(newData);
+                mAdapter.buildList();
                 return true;
             case R.id.action_sort:
                 String[] items = new String[2];
                 items[0] = "Alphabetically";
                 items[1] = "Custom";
                 String title = getString(R.string.action_sorting);
-                if (mGrocery.getSortByValue() == 0) {
+                if (mGrocery.getSortByValue() == AppUtil.LIST_SORT_BY_CUSTOM) {
                     title = title + " (Custom)";
                 } else {
                     title = title + " (Alphabetically)";
@@ -262,16 +259,17 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            mGrocery.setSortByValue(0);
+                            mGrocery.setSortByValue(AppUtil.LIST_SORT_BY_ALPHABETICALLY);
                         } else {
-                            mGrocery.setSortByValue(1);
+                            mGrocery.setSortByValue(AppUtil.LIST_SORT_BY_CUSTOM);
                         }
                         mGroceryService.update(mGrocery);
+                        mAdapter.buildList();
                     }
                 });
                 AlertDialog alert = builder.create();
                 alert.show();
-
+                return true;
             default:
                 return true;
         }
@@ -281,27 +279,8 @@ public class ProductsFragment extends Fragment implements View.OnClickListener, 
         mAutoCompleteTextView.setText("");
         Product product = mProductService.addProductToGrocery(text, mGrocery);
         if (product != null) {
-            mAdapter.customNotifyItemInserted(0, product);
+            mAdapter.buildList();
         }
-    }
-
-    public void buildAgainList() {
-        ArrayList<Product> data = mProductService.getDataGrocery(mGrocery);
-        for (Product product : data) {
-            Log.d(TAG, "name: " + product.getName() + ", quantity: " + product.getQuantity() +
-                    ", grocery: " + product.getGrocery().getId());
-        }
-
-//        ArrayList<Product> data = mShoppingListService.productShoppingSrceen(mGrocery);
-//        if (data.size() == 0) {
-//            mTextEmpty.setVisibility(View.VISIBLE);
-//        } else {
-//            mTextEmpty.setVisibility(View.GONE);
-//        }
-//        mAdapter.setData(data);
-//        mAdapter.notifyDataSetChanged();
-        //TODO
-
     }
 
 

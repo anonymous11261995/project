@@ -259,7 +259,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    private void buildList() {
+    public void buildList() {
         ArrayList<Product> data = mProductService.getDataGrocery(mGrocery);
         mListItems.clear();
         mListItems.addAll(data);
@@ -284,17 +284,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public ArrayList<Product> getData() {
         return mListItems;
-    }
-
-    public void customNotifyItemInserted(int postion, Product product) {
-        mListItems.add(0, product);
-        notifyItemInserted(postion);
-    }
-
-    public void customNotifyDataSet(ArrayList<Product> data) {
-        mListItems.clear();
-        mListItems.addAll(data);
-        notifyDataSetChanged();
     }
 
 

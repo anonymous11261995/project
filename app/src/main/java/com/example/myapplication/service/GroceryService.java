@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.myapplication.R;
 import com.example.myapplication.entity.Grocery;
 import com.example.myapplication.entity.Product;
+import com.example.myapplication.utils.AppUtil;
 import com.example.myapplication.utils.ColorUtils;
 
 import org.json.JSONException;
@@ -22,10 +23,12 @@ import java.util.Date;
 public class GroceryService extends GenericService {
     private static final String TAG = GroceryService.class.getSimpleName();
     private Context mContext;
+    private ProductService mProductService;
 
     public GroceryService(Context context) {
         super(context);
         this.mContext = context;
+        mProductService = new ProductService(context);
     }
 
     public void delete(Grocery grocery) {
@@ -48,11 +51,10 @@ public class GroceryService extends GenericService {
         grocery.setName(name);
         grocery.setColor(ColorUtils.randomColor(mContext));
         grocery.setCreated(new Date());
-        grocery.setSortByValue(0);
+        grocery.setSortByValue(AppUtil.LIST_SORT_BY_CUSTOM);
         mGroceryDao.create(grocery);
         return grocery;
     }
-
 
 
     public ArrayList<Grocery> getAllShoppingList() {
@@ -64,6 +66,8 @@ public class GroceryService extends GenericService {
                 grocery.setColor(color);
                 mGroceryDao.update(grocery);
             }
+            ArrayList<Product> products = mProductService.getDataGrocery(grocery);
+            grocery.setProducts(products);
             result.add(grocery);
         }
         return result;

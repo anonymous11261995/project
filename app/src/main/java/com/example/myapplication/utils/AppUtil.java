@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 public class AppUtil {
     public static String SHARE_PREFERENCES_PREF_NAME = "MyApp";
+    public static int LIST_SORT_BY_ALPHABETICALLY = 0;
+    public static int LIST_SORT_BY_CUSTOM = 1;
 
     public static String convertStringToUrl(String str) {
         try {

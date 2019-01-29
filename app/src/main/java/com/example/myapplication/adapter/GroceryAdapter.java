@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.entity.Grocery;
+import com.example.myapplication.entity.Product;
 import com.example.myapplication.helper.SwipeDeleteHelper;
 import com.example.myapplication.service.GroceryService;
 
@@ -48,7 +49,16 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ItemHolder holder = (ItemHolder) viewHolder;
         Grocery object = mListItems.get(position);
         holder.itemName.setText(object.getName());
-
+        ArrayList<Product> products = object.getProducts();
+        int numberItemBought = 0;
+        for (Product product : products) {
+            if (product.isPurchased()) {
+                numberItemBought++;
+            }
+        }
+        String status = String.valueOf(numberItemBought) + "/" + String.valueOf(products.size());
+        holder.itemStatus.setText(status);
+        //event
         holder.imageMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,13 +87,12 @@ public class GroceryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
-    public void customNotifyItemInserted() {
+    public void customNotifyDataSetChanged() {
         ArrayList<Grocery> data = mGroceryService.getAllShoppingList();
         mListItems.clear();
         mListItems.addAll(data);
         notifyDataSetChanged();
     }
-
 
 
     @Override

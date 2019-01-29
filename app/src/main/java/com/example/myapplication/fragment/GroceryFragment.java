@@ -85,7 +85,7 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                     public void onClickPositiveButton(DialogInterface dialog, String text) {
                         if (mGroceryService.checkBeforeUpdateList(text)) {
                             mGroceryService.createNewList(text);
-                            mAdapter.customNotifyItemInserted();
+                            mAdapter.customNotifyDataSetChanged();
                         } else {
                             hideSoftKeyBoard();
                             Toast.makeText(getContext(), getResources().getString(R.string.toast_duplicate_name), Toast.LENGTH_LONG).show();
@@ -146,15 +146,13 @@ public class GroceryFragment extends Fragment implements View.OnClickListener {
                                     public void onClickPositiveButton(DialogInterface dialog, String name) {
                                         grocery.setName(name);
                                         mGroceryService.update(grocery);
-                                        //TODO
+                                        mAdapter.customNotifyDataSetChanged();
                                     }
                                 });
                                 break;
                             case 2:
                                 Log.d(TAG, "Delete list");
                                 mAdapter.deleteItem(grocery);
-                                break;
-                            case 3:
                                 break;
                             default:
                                 break;
